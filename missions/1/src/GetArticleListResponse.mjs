@@ -1,7 +1,7 @@
 import SprintUtility from "./SprintUtility.mjs"
 import Article from "./Article.mjs"
 
-export default class ArticleListResponse {
+export default class GetArticleListResponse {
   #totalCount
   #list
 
@@ -47,6 +47,6 @@ export default class ArticleListResponse {
   }
 
   static fromJson(json) {
-    return new ArticleListResponse(json)
+    return new GetArticleListResponse(json)
   }
 }

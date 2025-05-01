@@ -1,7 +1,7 @@
 import axios from "axios";
 import SprintUtility from "./SprintUtility.mjs";
 import Article from "./Article.mjs";
-import ArticleListResponse from "./ArticleListResponse.mjs";
+import GetArticleListResponse from "./GetArticleListResponse.mjs";
 
 export default class ArticleService {
   static #axiosInstance = new axios.create({
@@ -21,10 +21,7 @@ export default class ArticleService {
       .then(
         response => Article.fromJson(response.data))
       .catch(
-        error => {
-          console.error(error)
-          throw error
-        })
+        error => { throw error })
   }
 
   static async getArticleList(schemes = {}) {
@@ -46,14 +43,14 @@ export default class ArticleService {
     return this.#axiosInstance.get(``, { params: query })
       .then(
         response => {
-          const articleListResponse = ArticleListResponse.fromJson(response.data)
-          const articleList = articleListResponse.list
+          const getArticleListResponse = GetArticleListResponse.fromJson(response.data)
+          const articleList = getArticleListResponse.list
 
           return articleList
         })
       .catch(
         error => {
-          console.error(error)
+          //console.error(error)
           throw error
         })
   }
@@ -118,12 +115,12 @@ export default class ArticleService {
 
   static #verifyParameterId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] getArticle() parameters.id must be a number.')
+    const number = SprintUtility.from(id, 'number', '[error] getArticle() and deleteArticle() parameters.id must be a number.')
 
     // check requirements
     // min=1
     if (number < 1) {
-      throw Error(`[error] getArticle() parameters.id must be at least 1.`)
+      throw Error(`[error] getArticle() and deleteArticle() parameters.id must be at least 1.`)
     }
 
     return number
