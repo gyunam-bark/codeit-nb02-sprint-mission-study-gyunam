@@ -1,7 +1,11 @@
 import axios from "axios";
 import SprintUtility from "./SprintUtility.mjs";
 import Article from "./Article.mjs";
+import GetArticleRequest from "./GetArticleRequest.mjs";
+import GetArticleListRequest from "./GetArticleListRequest.mjs";
 import GetArticleListResponse from "./GetArticleListResponse.mjs";
+import DeleteArticleRequest from "./DeleteArticleRequest.mjs";
+
 
 export default class ArticleService {
   static #axiosInstance = new axios.create({
@@ -14,33 +18,24 @@ export default class ArticleService {
 
   constructor() { }
 
-  static async getArticle(articleId = 0) {
-    const id = this.#verifyParameterId(articleId)
+  static async getArticle(request) {
+    if (request instanceof GetArticleRequest === false) {
+      throw new TypeError(`[error] getArticle : request must be a instance of GetArticleRequest.`)
+    }
 
-    return this.#axiosInstance.get(`/${id}`)
+    return this.#axiosInstance.get(request.toParameter())
       .then(
         response => Article.fromJson(response.data))
       .catch(
         error => { throw error })
   }
 
-  static async getArticleList(schemes = {}) {
-    const { page, pageSize, keyword } = schemes
-    const query = {}
-
-    if (page !== undefined) {
-      query.page = this.#verifyParameterPage(page)
+  static async getArticleList(request) {
+    if (request instanceof GetArticleListRequest === false) {
+      throw new TypeError(`[error] getArticle : request must be a instance of GetArticleRequest.`)
     }
 
-    if (pageSize !== undefined) {
-      query.pageSize = this.#verifyParameterPageSize(pageSize)
-    }
-
-    if (keyword !== undefined) {
-      query.keyword = this.#verifyParameterKeyword(keyword)
-    }
-
-    return this.#axiosInstance.get(``, { params: query })
+    return this.#axiosInstance.get(``, { params: request.toQuery() })
       .then(
         response => {
           const getArticleListResponse = GetArticleListResponse.fromJson(response.data)
@@ -101,10 +96,11 @@ export default class ArticleService {
         })
   }
 
-  static async deleteArticle(articleId = 0) {
-    const id = this.#verifyParameterId(articleId)
-
-    return this.#axiosInstance.delete(`/${id}`)
+  static async deleteArticle(request) {
+    if (request instanceof DeleteArticleRequest === false) {
+      throw new TypeError(`[error] deleteArticle : request must be a instance of DeleteArticleRequest.`)
+    }
+    return this.#axiosInstance.delete(request.toParameter())
       .then(response => response.data)
       .catch(
         error => {

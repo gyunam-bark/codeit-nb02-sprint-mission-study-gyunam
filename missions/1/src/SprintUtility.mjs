@@ -9,9 +9,9 @@ export default class SprintUtility {
       typeOfValue = typeof value
     }
 
-    const typeForCheck = Array.isArray(typeList) ? typeList : [typeList]
+    const typeListForCheck = Array.isArray(typeList) ? typeList : [typeList]
 
-    if (!typeForCheck.includes(typeOfValue)) {
+    if (!typeListForCheck.includes(typeOfValue)) {
       throw new TypeError(message)
     }
 

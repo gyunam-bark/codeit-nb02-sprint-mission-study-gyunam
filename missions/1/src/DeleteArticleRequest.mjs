@@ -1,7 +1,6 @@
-// /articles/{articleId}
 import SprintUtility from "./SprintUtility.mjs"
 
-export default class GetArticleRequest {
+export default class DeleteArticleRequest {
   #articleId
 
   constructor({ articleId = 0 }) {
@@ -30,7 +29,7 @@ export default class GetArticleRequest {
   }
 
   static fromJson(json) {
-    return GetArticleRequest(json)
+    return DeleteArticleRequest(json)
   }
 
   toJson() {
@@ -38,5 +37,4 @@ export default class GetArticleRequest {
       articleId: this.#articleId
     }
   }
-
 }
