@@ -1,20 +1,28 @@
 import SprintUtility from "../util/SprintUtility.mjs"
 
 export default class Product {
+  #id
   #name
   #description
   #price
   #tags
   #images
   #favoriteCount
+  #createdAt
 
-  constructor(name = '', description = '', price = 0, tags = [], images = [], favoriteCount = 0) {
-    this.#name = SprintUtility.from(name, 'string', 'Product.name must be a string.')
-    this.#description = SprintUtility.from(description, 'string', 'Product.description must be a string.')
-    this.#price = SprintUtility.from(price, 'number', 'Product.price must be a number.')
-    this.#tags = SprintUtility.from(tags, 'array', 'Product.tags must be a array.')
-    this.#images = SprintUtility.from(images, 'array', 'Product.images must be a array.')
-    this.#favoriteCount = SprintUtility.from(favoriteCount, 'number', 'Product.favoriteCount must be a number.')
+  constructor({ id = 0, name = '', description = '', price = 0, tags = [], images = [], favoriteCount = 0, createdAt }) {
+    this.#id = this.#verifyId(id)
+    this.#name = this.#verifyName(name)
+    this.#description = this.#verifyDescription(description)
+    this.#price = this.#verifyPrice(price)
+    this.#tags = this.#verifyTags(tags)
+    this.#images = this.#verifyImages(tags)
+    this.#favoriteCount = this.#verifyFavoriteCount(favoriteCount)
+    this.#createdAt = this.#verifyCreatedAt(createdAt)
+  }
+
+  get id() {
+    return this.#id
   }
 
   get name() {
@@ -41,7 +49,203 @@ export default class Product {
     return this.#favoriteCount
   }
 
+  get createdAt() {
+    return this.#createdAt
+  }
+
   favorite() {
     this.#favoriteCount += 1
+  }
+
+  #verifyId(id) {
+    // check datatype
+    const number = SprintUtility.from(id, 'number', '[error] Product.id must be a number.')
+
+    // check requirements
+    // min=1
+    const MIN = 1
+    if (number < MIN) {
+      console.error(`[error] Product.id must be at least ${MIN}.`)
+      return MIN
+    }
+
+    return number
+  }
+
+  #verifyName(name) {
+    // check datatype
+    const string = SprintUtility.from(name, 'string', '[error] Product.name must be a string.')
+
+    // check requirements
+    // min=1, max=30
+    const stringLength = string.length
+    const MIN = 1
+    const MAX = 30
+    const SPACE_STRING = ' '
+
+    if (stringLength < MIN) {
+      console.error(`[error] Product.title length at least 1.`)
+      return SPACE_STRING
+    } else if (stringLength > MAX) {
+      console.error(`[error] Product.title length must be smaller than ${MAX}`)
+      return string.slice(MIN - 1, MAX)
+    }
+
+    return string
+  }
+
+  #verifyDescription(description) {
+    // check datatype
+    const string = SprintUtility.from(description, 'string', '[error] Product.description must be a string.')
+
+    // check requirements
+    // none
+
+    return string
+  }
+
+  #verifyPrice(price) {
+    // check datatype
+    const number = SprintUtility.from(price, 'number', '[error] Product.price must be a number.')
+
+    // check requirements
+    // min=0
+    const MIN = 0
+
+    if (number < MIN) {
+      console.error(`[error] Product.price must be positive.`)
+      return MIN
+    }
+
+    return price
+  }
+
+  #verifyTags(tags) {
+    // check datatype
+    const array = SprintUtility.from(tags, 'array', '[error] Product.tags must be a array.')
+
+    // check requirements
+    // min=1
+    const MIN = 1
+    const SPACE_STRING = ' '
+
+    const arrayLength = array.length
+
+    if (arrayLength < MIN) {
+      console.error(`[error] Product.tags length at least ${MIN}.`)
+      return [SPACE_STRING]
+    }
+
+    const verifiedArray = array.map((tag) => this.#verifyTag(tag))
+
+    return verifiedArray
+  }
+
+  #verifyTag(tag) {
+    // check datatype
+    const string = SprintUtility.from(string, 'array', '[error] Product.tags.tag must be a string.')
+
+    // check requirements
+    // min=1
+    // max=20
+    const MIN = 1
+    const MAX = 20
+    const SPACE_STRING = ' '
+
+    const tagLength = tag.length
+
+    if (tagLength < MIN) {
+      console.error(`[error] Product.tag length at least ${MIN}.`)
+      return SPACE_STRING
+    } else if (tagLength > MAX) {
+      console.error(`[error] Product.tag length must be smaller than ${MAX}.`)
+      return tag.slice(MIN - 1, MAX)
+    }
+
+    return tag
+  }
+
+  #verifyImages(images) {
+    // check datatype
+    const array = SprintUtility.from(images, 'array', '[error] Product.images must be a array.')
+
+    // check requirements
+    // min=1
+    const MIN = 1
+    const arrayLength = array.length
+
+    if (arrayLength < MIN) {
+      console.error(`[error] Product.images length at least ${MIN}.`)
+      return [EMPTY_URL]
+    }
+
+    const verifiedArray = array.map((image) => this.#verifyImage(image))
+
+    return verifiedArray
+  }
+
+  #verifyImage(image) {
+    // check datatype
+    const string = SprintUtility.from(string, 'array', '[error] Product.tags.tag must be a string.')
+
+    // check requirements
+    const PATTERN = /^https?:\/\/.+/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const EMPTY_URL = 'https://'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
+      console.error(`[error] Article.images.image must start with http:// or https://.`)
+      return EMPTY_URL
+    }
+
+    return image
+  }
+
+  #verifyFavoriteCount(favoraiteCount) {
+    // check datatype
+    const number = SprintUtility.from(favoraiteCount, 'number', '[error] Product.favoraiteCount must be a number.')
+
+    // check requirements
+    // none
+    const MIN = 0
+    const IS_NOT_INTEGER = !Number.isInteger(likeCount)
+
+    if (number < MIN) {
+      console.error(`[error] Article.likeCount must be positive.`)
+      return MIN
+    } else if (IS_NOT_INTEGER) {
+      console.error(`[error] Article.likeCount must be integer.`)
+      return MIN
+    }
+
+    return number
+  }
+
+  #verifyCreatedAt(createdAt) {
+    // check datatype
+    const string = SprintUtility.from(createdAt, 'string', '[error] Product.createdAt must be a string.')
+
+    // check requirements
+    // date-time
+    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
+    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
+      console.error(`[error] Product.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      return EMPTY_DATE
+    } else if (IS_NOT_EVENT_DATE_LIKE) {
+      console.error(`[error] Product.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      return EMPTY_DATE
+    } else {
+      console.error(`[error] Product.updatedAt must be $date-$time.`)
+    }
+
+    return string
+  }
+
+  static fromJson(json) {
+    return new Article(json)
   }
 }

@@ -63,9 +63,10 @@ export default class Article {
 
     // check requirements
     // min=1
-    if (number < 1) {
-      console.error(`[error] Article.id length must be at least 1.`)
-      return 1
+    const MIN = 1
+    if (number < MIN) {
+      console.error(`[error] Article.id must be at least ${MIN}.`)
+      return MIN
     }
 
     return number
@@ -78,13 +79,16 @@ export default class Article {
     // check requirements
     // min=1, max=50
     const stringLength = string.length
+    const MIN = 1
+    const MAX = 50
+    const SPACE_STRING = ' '
 
-    if (!stringLength) {
-      console.error(`[error] Article.title length at least 1.`)
-      return ''
-    } else if (stringLength > 50) {
-      console.error(`[error] Article.title length must be smaller than 50.`)
-      return string.slice(0, 50)
+    if (stringLength < MIN) {
+      console.error(`[error] Article.title length at least ${MIN}.`)
+      return SPACE_STRING
+    } else if (stringLength > MAX) {
+      console.error(`[error] Article.title length must be smaller than ${MAX}.`)
+      return string.slice(MIN - 1, MAX)
     }
 
     return string
@@ -97,8 +101,11 @@ export default class Article {
     // check requirements
     // min=1
     const stringLength = string.length
-    if (!stringLength) {
-      console.error(`[error] Article.content length must be at leat 1.`)
+    const MIN = 1
+    const SPACE_STRING = ' '
+    if (stringLength < MIN) {
+      console.error(`[error] Article.content length must be at leat ${MIN}.`)
+      return SPACE_STRING
     }
 
     return string
@@ -120,12 +127,15 @@ export default class Article {
 
     // check requirements
     // none
-    if (number < 0) {
+    const MIN = 0
+    const IS_NOT_INTEGER = !Number.isInteger(likeCount)
+
+    if (number < MIN) {
       console.error(`[error] Article.likeCount must be positive.`)
-      return 0
-    } else if (!Number.isInteger(likeCount)) {
+      return MIN
+    } else if (IS_NOT_INTEGER) {
       console.error(`[error] Article.likeCount must be integer.`)
-      return 0
+      return MIN
     }
 
     return number
@@ -137,14 +147,19 @@ export default class Article {
 
     // check requirements
     // date-time
-    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
-    if (!pattern.test(string)) {
+    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
+    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-    } else if (!Date.parse(createdAt)) {
+      return EMPTY_DATE
+    } else if (IS_NOT_EVENT_DATE_LIKE) {
       console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      return EMPTY_DATE
     } else {
       console.error(`[error] Article.updatedAt must be $date-$time.`)
-      return '0000-00-00T00:00:00.000Z'
     }
 
     return string
@@ -156,14 +171,19 @@ export default class Article {
 
     // check requirements
     // date-time
-    const pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
-    if (!pattern.test(string)) {
+    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
+    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-    } else if (!Date.parse(updatedAt)) {
+      return EMPTY_DATE
+    } else if (IS_NOT_EVENT_DATE_LIKE) {
       console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      return EMPTY_DATE
     } else {
       console.error(`[error] Article.updatedAt must be $date-$time.`)
-      return '0000-00-00T00:00:00.000Z'
     }
 
     return string
@@ -173,14 +193,19 @@ export default class Article {
     // check datatype
     const string = SprintUtility.from(image, ['string', 'null'], `[error] Article.image must be a string.`)
 
+    // can be null
     if (string === null) {
       return 'null'
     }
 
     // check requirements
-    const pattern = /^https?:\/\/.+/
-    if (!pattern.test(string)) {
+    const PATTERN = /^https?:\/\/.+/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const EMPTY_URL = 'https://'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[error] Article.image must start with http:// or https://.`)
+      return EMPTY_URL
     }
 
     return image

@@ -23,10 +23,8 @@ export default class ArticleService {
 
   constructor() { }
 
-  static async getArticle(request) {
-    if (request instanceof GetArticleRequest === false) {
-      throw new TypeError(`[error] getArticle : request must be a instance of GetArticleRequest.`)
-    }
+  static async getArticle(articleId = 0) {
+    const request = new GetArticleRequest({ articleId: articleId })
 
     return this.#axiosInstance.get(request.toParameter())
       .then(
@@ -35,10 +33,10 @@ export default class ArticleService {
         error => { throw error })
   }
 
-  static async getArticleList(request) {
-    if (request instanceof GetArticleListRequest === false) {
-      throw new TypeError(`[error] getArticle : request must be a instance of GetArticleRequest.`)
-    }
+  static async getArticleList(schemes = {}) {
+    const { page, pageSize, keyword } = schemes
+
+    const request = new GetArticleListRequest({ page: page, pageSize: pageSize, keyword: keyword })
 
     return this.#axiosInstance.get(``, { params: request.toQuery() })
       .then(
@@ -55,10 +53,10 @@ export default class ArticleService {
         })
   }
 
-  static async createArticle(request) {
-    if (request instanceof CreateArticleRequest === false) {
-      throw new TypeError(`[error] createArticle : request must be a instance of CreateArticleRequest.`)
-    }
+  static async createArticle(schemes = {}) {
+    const { title, content, image } = schemes
+
+    const request = new CreateArticleRequest({ title: title, content: content, image: image })
 
     return this.#axiosInstance.post(``, request.toQuery())
       .then(
@@ -69,10 +67,10 @@ export default class ArticleService {
         })
   }
 
-  static async patchArticle(request) {
-    if (request instanceof PatchArticleRequest === false) {
-      throw new TypeError(`[error] patchArticle : request must be a instance of PatchArticleRequest.`)
-    }
+  static async patchArticle(articleId = 0, schemes = {}) {
+    const { title, content, image } = schemes
+
+    const request = new PatchArticleRequest({ articleId: articleId, title: title, cotent: content, image: image })
 
     return this.#axiosInstance.patch(request.toParameter(), request.toQuery())
       .then(response => PatchArticleResponse.fromJson(response.data))
@@ -82,10 +80,9 @@ export default class ArticleService {
         })
   }
 
-  static async deleteArticle(request) {
-    if (request instanceof DeleteArticleRequest === false) {
-      throw new TypeError(`[error] deleteArticle : request must be a instance of DeleteArticleRequest.`)
-    }
+  static async deleteArticle(articleId = 0) {
+    const request = new DeleteArticleRequest({ articleId: articleId })
+
     return this.#axiosInstance.delete(request.toParameter())
       .then(response => {
         return DeleteArticleResponse.fromJson(response.data)
