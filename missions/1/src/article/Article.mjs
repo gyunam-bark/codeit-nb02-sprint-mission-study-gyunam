@@ -158,8 +158,6 @@ export default class Article {
     } else if (IS_NOT_EVENT_DATE_LIKE) {
       console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
-    } else {
-      console.error(`[ERROR] Article : updatedAt must be $date-$time.`)
     }
 
     return string
@@ -168,7 +166,6 @@ export default class Article {
   #verifyUpdatedAt(updatedAt) {
     // check datatype
     const string = SprintUtility.from(updatedAt, 'string', '[ERROR] Article : updatedAt must be a string.')
-
     // check requirements
     // date-time
     const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
@@ -182,8 +179,6 @@ export default class Article {
     } else if (IS_NOT_EVENT_DATE_LIKE) {
       console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
-    } else {
-      console.error(`[ERROR] Article : updatedAt must be $date-$time.`)
     }
 
     return string
@@ -202,7 +197,7 @@ export default class Article {
     // start with http:// or https:// and at lest 1 character
     const PATTERN = /^https?:\/\/.+/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const EMPTY_URL = 'https://'
+    const EMPTY_URL = 'https://.'
 
     if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[ERROR] Article : image must start with http://... or https://...`)
