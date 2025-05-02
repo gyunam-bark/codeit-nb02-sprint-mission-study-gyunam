@@ -19,7 +19,9 @@ console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticl
 
 // PATCH ARTICLE
 const patchedArticle = await ArticleService.patchArticle(createdArticle.id, { title: 'PATCH_1' })
-console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content}`)
+console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content} : like[${patchedArticle.likeCount}]`)
+patchedArticle.like()
+console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content} : like[${patchedArticle.likeCount}]`)
 
 // DELETE ARTICLE
 const deletedId = await ArticleService.deleteArticle(patchedArticle.id)
@@ -43,7 +45,9 @@ console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct
 
 // PATCH PRODUCT
 const patchedProduct = await ProductService.patchProduct(createdProduct.id, { name: "건담", description: "더 귀여운 고양이" })
-console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description}`)
+console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description} : favorite[${patchedProduct.favoriteCount}]`)
+patchedProduct.favorite()
+console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description} : favorite[${patchedProduct.favoriteCount}]`)
 
 // DELETE PRODUCT
 const deletedProduct = await ProductService.deleteProduct(patchedProduct.id)
