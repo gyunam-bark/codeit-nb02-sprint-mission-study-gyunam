@@ -5,6 +5,10 @@ import GetProductListRequest from "./product/GetProductListRequest.mjs";
 import GetProductListResponse from "./product/GetProductListResponse.mjs";
 import CreateProductRequest from "./product/CreateProductRequest.mjs"
 import CreateProductResponse from "./product/CreateProductResponse.mjs";
+import PatchProductRequest from "./product/PatchProductRequest.mjs";
+import PatchProductResponse from "./product/PatchProductResponse.mjs";
+import DeleteProductRequest from "./product/DeleteProductRequest.mjs";
+import DeleteProductResponse from "./product/DeleteProductResponse.mjs"
 
 export default class ProductService {
   static #axiosInstance = new axios.create({
@@ -53,9 +57,25 @@ export default class ProductService {
   }
 
   static async patchProduct(productId, schemes = {}) {
-    const { } = schemes
+    try {
+      const { name, description, price, tags, images } = schemes
 
+      const request = new PatchProductRequest({ productId: productId, name: name, description: description, price: price, tags: tags, images: images })
+      const response = await this.#axiosInstance.patch(request.toParameter(), request.toQuery())
+      const patchProductResponse = PatchProductResponse.fromJson(response.data)
+      const product = patchProductResponse.product
+
+      return product
+    } catch (error) { throw error }
   }
 
-  static async deleteProduct(productId = 0) { }
+  static async deleteProduct(productId = 0) {
+    try {
+      const request = new DeleteProductRequest({ productId: productId })
+      const response = await this.#axiosInstance.delete(request.toParameter())
+      const deleteProductResponse = DeleteProductResponse.fromJson(response.data)
+
+      return deleteProductResponse
+    } catch (error) { throw error }
+  }
 }

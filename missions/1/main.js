@@ -40,3 +40,11 @@ console.log(`[GET] ${specificProduct.id} ${specificProduct.name} ${specificProdu
 // CREATE PRODUCT
 const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, ['고양이'], ['https://t'])
 console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description}`)
+
+// PATCH PRODUCT
+const patchedProduct = await ProductService.patchProduct(createdProduct.id, { name: "건담", description: "더 귀여운 고양이" })
+console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description}`)
+
+// DELETE PRODUCT
+const deletedProduct = await ProductService.deleteProduct(patchedProduct.id)
+console.log(`[DELETE] ${deletedProduct.id}`)

@@ -173,6 +173,7 @@ export default class Product {
     // min=1
     const MIN = 1
     const arrayLength = array.length
+    const EMPTY_URL = 'https://.'
 
     if (arrayLength < MIN) {
       console.error(`[error] Product.images length at least ${MIN}.`)
@@ -192,7 +193,7 @@ export default class Product {
     // start with http:// or https:// and at lest 1 character
     const PATTERN = /^https?:\/\/.+/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const EMPTY_URL = 'https://'
+    const EMPTY_URL = 'https://.'
 
     if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[error] Product.images.image must start with http://... or https:///...`)
