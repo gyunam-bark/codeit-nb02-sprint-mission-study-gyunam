@@ -1,7 +1,9 @@
 import ArticleService from "./src/ArticleService.js"
+import CreateArticleRequest from "./src/CreateArticleRequest.mjs"
 import DeleteArticleRequest from "./src/DeleteArticleRequest.mjs"
 import GetArticleListRequest from "./src/GetArticleListRequest.mjs"
 import GetArticleRequest from "./src/GetArticleRequest.mjs"
+
 
 // GET ARTICLE LIST
 const getArticleListRequest = new GetArticleListRequest()
@@ -14,7 +16,8 @@ const article = await ArticleService.getArticle(getArticleRequest)
 console.log(`[GET] ${article.id} ${article.title} ${article.content}`)
 
 // CREATE ARTICLE
-const createdArticle = await ArticleService.createArticle('TITLE_CREATED', 'CONTENT_1')
+const createArticleRequest = new CreateArticleRequest({ title: 'TEST_1', content: 'CONTENT_1' })
+const createdArticle = await ArticleService.createArticle(createArticleRequest)
 console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticle.content}`)
 
 // PATCH ARTICLE

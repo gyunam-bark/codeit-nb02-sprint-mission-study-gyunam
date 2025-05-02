@@ -64,11 +64,11 @@ export default class GetArticleListRequest {
   toQuery() {
     const query = {}
 
-    if (this.#page !== null && this.#page > 0) {
+    if (this.#page !== null) {
       query.page = this.#page
     }
 
-    if (this.#pageSize !== null && this.#pageSize > 0) {
+    if (this.#pageSize !== null) {
       query.pageSize = this.#pageSize
     }
 

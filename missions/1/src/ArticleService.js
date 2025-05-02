@@ -4,7 +4,9 @@ import Article from "./Article.mjs";
 import GetArticleRequest from "./GetArticleRequest.mjs";
 import GetArticleListRequest from "./GetArticleListRequest.mjs";
 import GetArticleListResponse from "./GetArticleListResponse.mjs";
+import CreateArticleRequest from "./CreateArticleRequest.mjs";
 import DeleteArticleRequest from "./DeleteArticleRequest.mjs";
+import DeleteArticleResponse from "./DeleteArticleResponse.mjs"
 
 
 export default class ArticleService {
@@ -50,18 +52,12 @@ export default class ArticleService {
         })
   }
 
-  static async createArticle(title = '', content = '', schemes = {}) {
-    const { image } = schemes
-    const query = {}
-
-    query.title = this.#verifyParameterTitle(title)
-    query.content = this.#verifyParameterContent(content)
-
-    if (image !== undefined) {
-      query.image = this.#verifyParameterImage(image)
+  static async createArticle(request) {
+    if (request instanceof CreateArticleRequest === false) {
+      throw new TypeError(`[error] createArticle : request must be a instance of CreateArticleRequest.`)
     }
 
-    return this.#axiosInstance.post(``, query)
+    return this.#axiosInstance.post(``, request.toQuery())
       .then(
         response => Article.fromJson(response.data))
       .catch(
@@ -101,7 +97,9 @@ export default class ArticleService {
       throw new TypeError(`[error] deleteArticle : request must be a instance of DeleteArticleRequest.`)
     }
     return this.#axiosInstance.delete(request.toParameter())
-      .then(response => response.data)
+      .then(response => {
+        return DeleteArticleResponse.fromJson(response.data)
+      })
       .catch(
         error => {
           console.error(error)
