@@ -1,14 +1,15 @@
 import axios from "axios";
-import SprintUtility from "./SprintUtility.mjs";
-import Article from "./Article.mjs";
-import GetArticleRequest from "./GetArticleRequest.mjs";
-import GetArticleListRequest from "./GetArticleListRequest.mjs";
-import GetArticleListResponse from "./GetArticleListResponse.mjs";
-import CreateArticleRequest from "./CreateArticleRequest.mjs";
-import PatchArticleRequest from "./PatchArticleRequest.mjs";
-import PatchArticleResponse from "./PatchArticleResponse.mjs";
-import DeleteArticleRequest from "./DeleteArticleRequest.mjs";
-import DeleteArticleResponse from "./DeleteArticleResponse.mjs"
+import Article from "./article/Article.mjs";
+import GetArticleRequest from "./article/GetArticleRequest.mjs";
+import GetArticleResponse from "./article/GetArticleResponse.mjs";
+import GetArticleListRequest from "./article/GetArticleListRequest.mjs";
+import GetArticleListResponse from "./article/GetArticleListResponse.mjs";
+import CreateArticleRequest from "./article/CreateArticleRequest.mjs";
+import CreateArticleResponse from "./article/CreateArticleResponse.mjs";
+import PatchArticleRequest from "./article/PatchArticleRequest.mjs";
+import PatchArticleResponse from "./article/PatchArticleResponse.mjs";
+import DeleteArticleRequest from "./article/DeleteArticleRequest.mjs";
+import DeleteArticleResponse from "./article/DeleteArticleResponse.mjs"
 
 
 export default class ArticleService {
@@ -29,7 +30,7 @@ export default class ArticleService {
 
     return this.#axiosInstance.get(request.toParameter())
       .then(
-        response => Article.fromJson(response.data))
+        response => GetArticleResponse.fromJson(response.data))
       .catch(
         error => { throw error })
   }
@@ -61,7 +62,7 @@ export default class ArticleService {
 
     return this.#axiosInstance.post(``, request.toQuery())
       .then(
-        response => Article.fromJson(response.data))
+        response => CreateArticleResponse.fromJson(response.data))
       .catch(
         error => {
           throw error

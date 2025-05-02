@@ -1,9 +1,10 @@
 import ArticleService from "./src/ArticleService.js"
-import CreateArticleRequest from "./src/CreateArticleRequest.mjs"
-import DeleteArticleRequest from "./src/DeleteArticleRequest.mjs"
-import GetArticleListRequest from "./src/GetArticleListRequest.mjs"
-import GetArticleRequest from "./src/GetArticleRequest.mjs"
-import PatchArticleRequest from "./src/PatchArticleRequest.mjs"
+
+import CreateArticleRequest from "./src/article/CreateArticleRequest.mjs"
+import DeleteArticleRequest from "./src/article/DeleteArticleRequest.mjs"
+import GetArticleListRequest from "./src/article/GetArticleListRequest.mjs"
+import GetArticleRequest from "./src/article/GetArticleRequest.mjs"
+import PatchArticleRequest from "./src/article/PatchArticleRequest.mjs"
 
 
 // GET ARTICLE LIST

@@ -1,4 +1,4 @@
-import SprintUtility from "./SprintUtility.mjs"
+import SprintUtility from "../util/SprintUtility.mjs"
 import Article from "./Article.mjs"
 
 export default class GetArticleListResponse {

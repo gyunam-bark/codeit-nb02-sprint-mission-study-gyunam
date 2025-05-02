@@ -1,7 +1,6 @@
-// /articles/{articleId}
-import SprintUtility from "./SprintUtility.mjs"
+import SprintUtility from "../util/SprintUtility.mjs"
 
-export default class GetArticleRequest {
+export default class DeleteArticleRequest {
   #articleId
 
   constructor({ articleId = 0 }) {
@@ -14,12 +13,12 @@ export default class GetArticleRequest {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] getArticleRequest : /articles/{articleId} must be a number.')
+    const number = SprintUtility.from(id, 'number', '[error] DeleteArticleRequest : /articles/{articleId} must be a number.')
 
     // check requirements
     // min=1
     if (number < 1) {
-      throw Error(`[error] getArticleRequest : /articles/{articleId} must be at least 1.`)
+      throw Error(`[error] DeleteArticleRequest : /articles/{articleId} must be at least 1.`)
     }
 
     return number
@@ -30,7 +29,7 @@ export default class GetArticleRequest {
   }
 
   static fromJson(json) {
-    return GetArticleRequest(json)
+    return DeleteArticleRequest(json)
   }
 
   toJson() {
@@ -38,5 +37,4 @@ export default class GetArticleRequest {
       articleId: this.#articleId
     }
   }
-
 }

@@ -1,4 +1,4 @@
-import SprintUtility from "./SprintUtility.mjs"
+import SprintUtility from "../util/SprintUtility.mjs"
 
 export default class GetArticleListRequest {
   #page

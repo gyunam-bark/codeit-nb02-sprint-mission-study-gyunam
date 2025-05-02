@@ -1,5 +1,5 @@
-import Product from "./Product.mjs";
-import SprintUtility from "./SprintUtility.mjs";
+import Product from "../product/Product.mjs";
+import SprintUtility from "../util/SprintUtility.mjs";
 
 export default class ElectronicProduct extends Product {
   #manufacturer
