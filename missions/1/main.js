@@ -1,5 +1,9 @@
 import ArticleService from "./src/ArticleService.js"
+import ProductService from "./src/ProductService.js"
 
+console.log(`============================`)
+console.log(`= ARTICLE TEST`)
+console.log(`============================`)
 // GET ARTICLE LIST
 const articleList = await ArticleService.getArticleList()
 
@@ -19,4 +23,9 @@ console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArtic
 const deletedId = await ArticleService.deleteArticle(patchedArticle.id)
 console.log(`[DELETE] ${deletedId.id}`)
 
-// 
+console.log(`============================`)
+console.log(`= PRODUCT TEST`)
+console.log(`============================`)
+// GET PRODUCT
+const product = await ProductService.getProduct(20)
+console.log(`[GET] ${product.id} ${product.name} ${product.description}`)

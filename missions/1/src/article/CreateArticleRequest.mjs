@@ -32,12 +32,14 @@ export default class CreateArticleRequest {
 
     // check requirements
     // min=1, max=50
+    const MIN = 1
+    const MAX = 50
     const stringLength = string.length
 
-    if (!stringLength) {
-      throw Error(`[error] createArticleRequest : title length at least 1.`)
+    if (stringLength < MIN) {
+      throw Error(`[error] createArticleRequest : title length at least ${MIN}.`)
     } else if (stringLength > 50) {
-      throw Error(`[error] createArticleRequest : title length must be smaller than 50.`)
+      throw Error(`[error] createArticleRequest : title length must be smaller than ${MAX}.`)
     }
 
     return string
@@ -47,11 +49,13 @@ export default class CreateArticleRequest {
     const string = SprintUtility.from(content, 'string', '[error] createArticleRequest : content must be a string.')
 
     // check requirements
-    // min=1, max=50
+    // min=1
+    const MIN = 1
+
     const stringLength = string.length
 
-    if (!stringLength) {
-      throw Error(`[error] createArticleRequest : content length at least 1.`)
+    if (stringLength < MIN) {
+      throw Error(`[error] createArticleRequest : content length at least ${MIN}.`)
     }
 
     return string
@@ -59,12 +63,14 @@ export default class CreateArticleRequest {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(image, ['string'], `[error] createArticleRequest : image must be a string`)
+    const string = SprintUtility.from(image, 'string', `[error] createArticleRequest : image must be a string`)
 
     // check requirements
-    const pattern = /^https?:\/\/.+/
-    if (!pattern.test(string)) {
-      console.error(`[error] createArticleRequest : image must start with http:// or https://.`)
+    const PATTERN = /^https?:\/\/.+/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+
+    if (IS_NOT_FOLLOW_PATTERN) {
+      console.error(`[error] Article.images.image must start with http:// or https://.`)
       return null
     }
 

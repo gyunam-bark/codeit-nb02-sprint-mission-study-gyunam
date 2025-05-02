@@ -10,13 +10,13 @@ export default class Product {
   #favoriteCount
   #createdAt
 
-  constructor({ id = 0, name = '', description = '', price = 0, tags = [], images = [], favoriteCount = 0, createdAt }) {
+  constructor({ id = 0, name = '', description = '', price = 0, tags = [], images = [], favoriteCount = 0, createdAt = '' }) {
     this.#id = this.#verifyId(id)
     this.#name = this.#verifyName(name)
     this.#description = this.#verifyDescription(description)
     this.#price = this.#verifyPrice(price)
     this.#tags = this.#verifyTags(tags)
-    this.#images = this.#verifyImages(tags)
+    this.#images = this.#verifyImages(images)
     this.#favoriteCount = this.#verifyFavoriteCount(favoriteCount)
     this.#createdAt = this.#verifyCreatedAt(createdAt)
   }
@@ -125,11 +125,16 @@ export default class Product {
     const array = SprintUtility.from(tags, 'array', '[error] Product.tags must be a array.')
 
     // check requirements
-    // min=1
-    const MIN = 1
+    // min=0
+    const EMPTY = 0
+    const MIN = 0
     const SPACE_STRING = ' '
 
     const arrayLength = array.length
+
+    if (arrayLength === EMPTY) {
+      return array
+    }
 
     if (arrayLength < MIN) {
       console.error(`[error] Product.tags length at least ${MIN}.`)
@@ -143,7 +148,7 @@ export default class Product {
 
   #verifyTag(tag) {
     // check datatype
-    const string = SprintUtility.from(string, 'array', '[error] Product.tags.tag must be a string.')
+    const string = SprintUtility.from(string, 'string', '[error] Product.tags.tag must be a string.')
 
     // check requirements
     // min=1
@@ -170,9 +175,14 @@ export default class Product {
     const array = SprintUtility.from(images, 'array', '[error] Product.images must be a array.')
 
     // check requirements
-    // min=1
-    const MIN = 1
+    // min=0
+    const EMPTY = 0
+    const MIN = 0
     const arrayLength = array.length
+
+    if (arrayLength === EMPTY) {
+      return array
+    }
 
     if (arrayLength < MIN) {
       console.error(`[error] Product.images length at least ${MIN}.`)
@@ -186,7 +196,7 @@ export default class Product {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(string, 'array', '[error] Product.tags.tag must be a string.')
+    const string = SprintUtility.from(image, 'string', '[error] Product.image must be a string.')
 
     // check requirements
     const PATTERN = /^https?:\/\/.+/
@@ -194,7 +204,7 @@ export default class Product {
     const EMPTY_URL = 'https://'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.images.image must start with http:// or https://.`)
+      console.error(`[error] Product.images.image must start with http:// or https://.`)
       return EMPTY_URL
     }
 
@@ -208,13 +218,13 @@ export default class Product {
     // check requirements
     // none
     const MIN = 0
-    const IS_NOT_INTEGER = !Number.isInteger(likeCount)
+    const IS_NOT_INTEGER = !Number.isInteger(favoraiteCount)
 
     if (number < MIN) {
-      console.error(`[error] Article.likeCount must be positive.`)
+      console.error(`[error] Product.favoraiteCount must be positive.`)
       return MIN
     } else if (IS_NOT_INTEGER) {
-      console.error(`[error] Article.likeCount must be integer.`)
+      console.error(`[error] Product.favoraiteCount must be integer.`)
       return MIN
     }
 
@@ -233,19 +243,17 @@ export default class Product {
     const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Product.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[error] Product.createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
     } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[error] Product.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[error] Product.createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
-    } else {
-      console.error(`[error] Product.updatedAt must be $date-$time.`)
     }
 
     return string
   }
 
   static fromJson(json) {
-    return new Article(json)
+    return new Product(json)
   }
 }

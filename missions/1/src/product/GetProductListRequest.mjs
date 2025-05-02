@@ -1,6 +1,6 @@
 import SprintUtility from "../util/SprintUtility.mjs"
 
-export default class GetArticleListRequest {
+export default class GetProductListRequest {
   #page
   #pageSize
   #keyword
@@ -27,13 +27,13 @@ export default class GetArticleListRequest {
 
   #verifyPage(page) {
     // check datatype
-    const number = SprintUtility.from(page, 'number', '[error] getArticleListRequest : /articles/ query.page must be a number.')
+    const number = SprintUtility.from(page, 'number', '[error] getProductListRequest : /products/ query.page must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getArticleListRequest : /articles/ query.page must be at least ${MIN}.`)
+      throw Error(`[error] getProductListRequest : /products/ query.page must be at least ${MIN}.`)
     }
 
     return number
@@ -41,13 +41,13 @@ export default class GetArticleListRequest {
 
   #verifyPageSize(pageSize) {
     // check datatype
-    const number = SprintUtility.from(pageSize, 'number', '[error] getArticleListRequest : /articles/ query.pageSize must be a number.')
+    const number = SprintUtility.from(pageSize, 'number', '[error] getProductListRequest : /products/ query..pageSize must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getArticleListRequest : /articles/ query.pageSize must be at least ${MIN}.`)
+      throw Error(`[error] getProductListRequest : /products/ query.pageSize must be at least ${MIN}.`)
     }
 
     return number
@@ -55,7 +55,7 @@ export default class GetArticleListRequest {
 
   #verifyKeyword(keyword) {
     // check datatype
-    const string = SprintUtility.from(keyword, 'string', '[error] getArticleListRequest : /articles/ query.keyword must be a string.')
+    const string = SprintUtility.from(keyword, 'string', '[error] getProductListRequest : /products/ query.keyword must be a string.')
 
     // check requirements
     // none
@@ -82,7 +82,7 @@ export default class GetArticleListRequest {
   }
 
   static fromJson(json) {
-    return new GetArticleListRequest(json)
+    return new GetProductListRequest(json)
   }
 
 }

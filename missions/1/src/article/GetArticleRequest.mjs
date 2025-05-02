@@ -18,8 +18,9 @@ export default class GetArticleRequest {
 
     // check requirements
     // min=1
-    if (number < 1) {
-      throw Error(`[error] getArticleRequest : /articles/{articleId} must be at least 1.`)
+    const MIN = 1
+    if (number < MIN) {
+      throw Error(`[error] getArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     }
 
     return number

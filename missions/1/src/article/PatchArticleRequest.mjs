@@ -36,8 +36,9 @@ export default class PatchArticleRequest {
 
     // check requirements
     // min=1
-    if (number < 1) {
-      throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be at least 1.`)
+    const MIN = 1
+    if (number < MIN) {
+      throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     }
 
     return number
@@ -49,12 +50,14 @@ export default class PatchArticleRequest {
 
     // check requirements
     // min=1, max=50
+    const MIN = 1
+    const MAX = 50
     const stringLength = string.length
 
-    if (!stringLength) {
-      throw Error(`[error] PatchArticleRequest : title length at least 1.`)
+    if (stringLength < MIN) {
+      throw Error(`[error] PatchArticleRequest : title length at least ${MIN}.`)
     } else if (stringLength > 50) {
-      throw Error(`[error] PatchArticleRequest : title length must be smaller than 50.`)
+      throw Error(`[error] PatchArticleRequest : title length must be smaller than ${MAX}.`)
     }
 
     return string
@@ -64,11 +67,12 @@ export default class PatchArticleRequest {
     const string = SprintUtility.from(content, 'string', '[error] PatchArticleRequest : content must be a string.')
 
     // check requirements
-    // min=1, max=50
+    // min=1
+    const MIN = 1
     const stringLength = string.length
 
-    if (!stringLength) {
-      throw Error(`[error] PatchArticleRequest : content length at least 1.`)
+    if (stringLength < MIN) {
+      throw Error(`[error] PatchArticleRequest : content length at least ${MIN}.`)
     }
 
     return string
@@ -79,8 +83,11 @@ export default class PatchArticleRequest {
     const string = SprintUtility.from(image, ['string', 'null'], `[error] PatchArticleRequest : image must be a string`)
 
     // check requirements
-    const pattern = /^https?:\/\/.+/
-    if (!pattern.test(string)) {
+    const PATTERN = /^https?:\/\/.+/
+    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
+    const EMPTY_URL = 'https://'
+
+    if (IS_NOT_FOLLOW_PATTERN) {
       console.error(`[error] PatchArticleRequest : image must start with http:// or https://.`)
       return null
     }

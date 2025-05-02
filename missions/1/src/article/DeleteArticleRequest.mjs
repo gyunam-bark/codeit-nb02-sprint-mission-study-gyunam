@@ -17,8 +17,9 @@ export default class DeleteArticleRequest {
 
     // check requirements
     // min=1
-    if (number < 1) {
-      throw Error(`[error] DeleteArticleRequest : /articles/{articleId} must be at least 1.`)
+    const MIN = 1
+    if (number < MIN) {
+      throw Error(`[error] DeleteArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     }
 
     return number

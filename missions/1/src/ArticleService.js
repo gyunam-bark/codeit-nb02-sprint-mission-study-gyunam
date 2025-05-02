@@ -28,9 +28,13 @@ export default class ArticleService {
 
     return this.#axiosInstance.get(request.toParameter())
       .then(
-        response => GetArticleResponse.fromJson(response.data))
-      .catch(
-        error => { throw error })
+        response => {
+          const getArticleResponse = GetArticleResponse.fromJson(response.data)
+          const article = getArticleResponse.article
+
+          return article
+        })
+      .catch(error => { throw error })
   }
 
   static async getArticleList(schemes = {}) {
@@ -47,10 +51,7 @@ export default class ArticleService {
           return articleList
         })
       .catch(
-        error => {
-          //console.error(error)
-          throw error
-        })
+        error => { throw error })
   }
 
   static async createArticle(schemes = {}) {
@@ -61,10 +62,7 @@ export default class ArticleService {
     return this.#axiosInstance.post(``, request.toQuery())
       .then(
         response => CreateArticleResponse.fromJson(response.data))
-      .catch(
-        error => {
-          throw error
-        })
+      .catch(error => { throw error })
   }
 
   static async patchArticle(articleId = 0, schemes = {}) {
@@ -73,11 +71,13 @@ export default class ArticleService {
     const request = new PatchArticleRequest({ articleId: articleId, title: title, cotent: content, image: image })
 
     return this.#axiosInstance.patch(request.toParameter(), request.toQuery())
-      .then(response => PatchArticleResponse.fromJson(response.data))
-      .catch(
-        error => {
-          throw error
-        })
+      .then(response => {
+        const patchArticleResponse = PatchArticleResponse.fromJson(response.data)
+        const article = patchArticleResponse.article
+
+        return article
+      })
+      .catch(error => { throw error })
   }
 
   static async deleteArticle(articleId = 0) {
@@ -87,10 +87,6 @@ export default class ArticleService {
       .then(response => {
         return DeleteArticleResponse.fromJson(response.data)
       })
-      .catch(
-        error => {
-          console.error(error)
-          throw error
-        })
+      .catch(error => { throw error })
   }
 }
