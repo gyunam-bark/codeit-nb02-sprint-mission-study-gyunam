@@ -9,13 +9,13 @@ export default class GetProductRequest {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] getProductRequest : /products/{productId} must be a number.')
+    const number = SprintUtility.from(id, 'number', '[ERROR] GetProductRequest : /products/{productId} must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getProductRequest : /products/{productId} must be at least ${MIN}.`)
+      throw Error(`[ERROR] GetProductRequest : /products/{productId} must be at least ${MIN}.`)
     }
 
     return number

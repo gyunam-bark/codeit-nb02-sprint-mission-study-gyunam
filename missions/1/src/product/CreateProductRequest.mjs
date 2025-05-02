@@ -40,7 +40,7 @@ export default class CreateProductRequest {
 
   #verifyName(name) {
     // check datatype
-    const string = SprintUtility.from(name, 'string', '[error] createProductRequest : name must be a string.')
+    const string = SprintUtility.from(name, 'string', '[ERROR] CreateProductRequest : name must be a string.')
 
     // check requirements
     // min=1, max=30
@@ -49,9 +49,9 @@ export default class CreateProductRequest {
     const stringLength = string.length
 
     if (stringLength < MIN) {
-      throw new Error(`[error] createProductRequest : title length at least ${MIN}.`)
+      throw new Error(`[ERROR] CreateProductRequest : title length at least ${MIN}.`)
     } else if (stringLength > MAX) {
-      throw new Error(`[error] createProductRequest : title length must be smaller than ${MAX}.`)
+      throw new Error(`[ERROR] CreateProductRequest : title length must be smaller than ${MAX}.`)
     }
 
     return string
@@ -59,7 +59,7 @@ export default class CreateProductRequest {
 
   #verifyDescription(description) {
     // check datatype
-    const string = SprintUtility.from(description, 'string', '[error] createProductRequest : description must be a string.')
+    const string = SprintUtility.from(description, 'string', '[ERROR] CreateProductRequest : description must be a string.')
 
     // check requirements
     // none
@@ -69,14 +69,14 @@ export default class CreateProductRequest {
 
   #verifyPrice(price) {
     // check datatype
-    const number = SprintUtility.from(price, 'number', '[error] createProductRequest : price must be a string.')
+    const number = SprintUtility.from(price, 'number', '[ERROR] CreateProductRequest : price must be a string.')
 
     // check requirements
     // min=0
     const MIN = 0
 
     if (number < MIN) {
-      throw Error(`[error] createProductRequest : price length at least ${MIN}.`)
+      throw Error(`[ERROR] CreateProductRequest : price length at least ${MIN}.`)
     }
 
     return number
@@ -84,7 +84,7 @@ export default class CreateProductRequest {
 
   #verifyTags(tags) {
     // check datatype
-    const array = SprintUtility.from(tags, 'array', '[error] Product.tags must be a array.')
+    const array = SprintUtility.from(tags, 'array', '[ERROR] CreateProductRequest : tags must be a array.')
 
     // check requirements
     // min=0
@@ -93,7 +93,7 @@ export default class CreateProductRequest {
     const arrayLength = array.length
 
     if (arrayLength < MIN) {
-      throw new Error(`[error] Product.tags length at least ${MIN}.`)
+      throw new Error(`[ERROR] CreateProductRequest : tags length at least ${MIN}.`)
     }
 
     const verifiedArray = array.map((tag) => this.#verifyTag(tag))
@@ -103,7 +103,7 @@ export default class CreateProductRequest {
 
   #verifyTag(tag) {
     // check datatype
-    const string = SprintUtility.from(tag, 'string', '[error] CreateProductRequest : tags.tag must be a string.')
+    const string = SprintUtility.from(tag, 'string', '[ERROR] CreateProductRequest : tags.tag must be a string.')
 
     // check requirements
     // min=1
@@ -114,9 +114,9 @@ export default class CreateProductRequest {
     const tagLength = string.length
 
     if (tagLength < MIN) {
-      throw new (`[error] Product.tag length at least ${MIN}.`)
+      throw new (`[ERROR] CreateProductRequest : tag length at least ${MIN}.`)
     } else if (tagLength > MAX) {
-      throw new (`[error] Product.tag length must be smaller than ${MAX}.`)
+      throw new (`[ERROR] CreateProductRequest : tag length must be smaller than ${MAX}.`)
     }
 
     return tag
@@ -124,7 +124,7 @@ export default class CreateProductRequest {
 
   #verifyImages(images) {
     // check datatype
-    const array = SprintUtility.from(images, 'array', '[error] Product.images must be a array.')
+    const array = SprintUtility.from(images, 'array', '[ERROR] CreateProductRequest : images must be a array.')
 
     // check requirements
     // min=1
@@ -132,7 +132,7 @@ export default class CreateProductRequest {
     const arrayLength = array.length
 
     if (arrayLength < MIN) {
-      throw new Error(`[error] Product.images length at least ${MIN}.`)
+      throw new Error(`[ERROR] CreateProductRequest : images length at least ${MIN}.`)
 
     }
 
@@ -143,7 +143,7 @@ export default class CreateProductRequest {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(image, 'string', '[error] Product.image must be a string.')
+    const string = SprintUtility.from(image, 'string', '[ERROR] CreateProductRequest : image must be a string.')
 
     // check requirements
     // start with http:// or https:// and at lest 1 character
@@ -151,7 +151,7 @@ export default class CreateProductRequest {
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      throw new Error(`[error] Product.images.image must start with http://.. or https://...`)
+      throw new Error(`[ERROR] CreateProductRequest : images.image must start with http://.. or https://...`)
     }
 
     return image

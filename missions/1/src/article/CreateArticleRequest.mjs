@@ -28,7 +28,7 @@ export default class CreateArticleRequest {
 
   #verifyTitle(title) {
     // check datatype
-    const string = SprintUtility.from(title, 'string', '[error] createArticleRequest : title must be a string.')
+    const string = SprintUtility.from(title, 'string', '[ERROR] createArticleRequest : title must be a string.')
 
     // check requirements
     // min=1, max=50
@@ -37,16 +37,16 @@ export default class CreateArticleRequest {
     const stringLength = string.length
 
     if (stringLength < MIN) {
-      throw Error(`[error] createArticleRequest : title length at least ${MIN}.`)
+      throw Error(`[ERROR] createArticleRequest : title length at least ${MIN}.`)
     } else if (stringLength > 50) {
-      throw Error(`[error] createArticleRequest : title length must be smaller than ${MAX}.`)
+      throw Error(`[ERROR] createArticleRequest : title length must be smaller than ${MAX}.`)
     }
 
     return string
   }
 
   #verifyContent(content) {
-    const string = SprintUtility.from(content, 'string', '[error] createArticleRequest : content must be a string.')
+    const string = SprintUtility.from(content, 'string', '[ERROR] createArticleRequest : content must be a string.')
 
     // check requirements
     // min=1
@@ -55,7 +55,7 @@ export default class CreateArticleRequest {
     const stringLength = string.length
 
     if (stringLength < MIN) {
-      throw Error(`[error] createArticleRequest : content length at least ${MIN}.`)
+      throw Error(`[ERROR] createArticleRequest : content length at least ${MIN}.`)
     }
 
     return string
@@ -63,14 +63,14 @@ export default class CreateArticleRequest {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(image, 'string', `[error] createArticleRequest : image must be a string`)
+    const string = SprintUtility.from(image, 'string', `[ERROR] createArticleRequest : image must be a string`)
 
     // check requirements
     const PATTERN = /^https?:\/\/.+/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.images.image must start with http://.. or https://...`)
+      console.error(`[ERROR] Article.images.image must start with http://.. or https://...`)
       return null
     }
 

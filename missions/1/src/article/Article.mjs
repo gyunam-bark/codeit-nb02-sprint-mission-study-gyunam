@@ -59,13 +59,13 @@ export default class Article {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] Article.id must be a number.')
+    const number = SprintUtility.from(id, 'number', '[ERROR] Article : id must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      console.error(`[error] Article.id must be at least ${MIN}.`)
+      console.error(`[ERROR] Article : id must be at least ${MIN}.`)
       return MIN
     }
 
@@ -74,7 +74,7 @@ export default class Article {
 
   #verifyTitle(title) {
     // check datatype
-    const string = SprintUtility.from(title, 'string', '[error] Article.title must be a string.')
+    const string = SprintUtility.from(title, 'string', '[ERROR] Article. : itle must be a string.')
 
     // check requirements
     // min=1, max=50
@@ -84,10 +84,10 @@ export default class Article {
     const SPACE_STRING = ' '
 
     if (stringLength < MIN) {
-      console.error(`[error] Article.title length at least ${MIN}.`)
+      console.error(`[ERROR] Article : title length at least ${MIN}.`)
       return SPACE_STRING
     } else if (stringLength > MAX) {
-      console.error(`[error] Article.title length must be smaller than ${MAX}.`)
+      console.error(`[ERROR] Article : title length must be smaller than ${MAX}.`)
       return string.slice(MIN - 1, MAX)
     }
 
@@ -96,7 +96,7 @@ export default class Article {
 
   #verifyContent(content) {
     // check datatype
-    const string = SprintUtility.from(content, 'string', '[error] Article.content must be a string.')
+    const string = SprintUtility.from(content, 'string', '[ERROR] Article : content must be a string.')
 
     // check requirements
     // min=1
@@ -104,7 +104,7 @@ export default class Article {
     const MIN = 1
     const SPACE_STRING = ' '
     if (stringLength < MIN) {
-      console.error(`[error] Article.content length must be at leat ${MIN}.`)
+      console.error(`[ERROR] Article : content length must be at leat ${MIN}.`)
       return SPACE_STRING
     }
 
@@ -113,7 +113,7 @@ export default class Article {
 
   #verifyWriter(writer) {
     // check datatype
-    const string = SprintUtility.from(writer, ['string', 'null'], '[error] Article.writer must be a string.')
+    const string = SprintUtility.from(writer, ['string', 'null'], '[ERROR] Article : writer must be a string.')
 
     // check requirements
     // none
@@ -123,7 +123,7 @@ export default class Article {
 
   #verifyLike(likeCount) {
     // check datatype
-    const number = SprintUtility.from(likeCount, 'number', '[error] Article.likeCount must be a number.')
+    const number = SprintUtility.from(likeCount, 'number', '[ERROR] Article : likeCount must be a number.')
 
     // check requirements
     // none
@@ -131,10 +131,10 @@ export default class Article {
     const IS_NOT_INTEGER = !Number.isInteger(likeCount)
 
     if (number < MIN) {
-      console.error(`[error] Article.likeCount must be positive.`)
+      console.error(`[ERROR] Article : likeCount must be positive.`)
       return MIN
     } else if (IS_NOT_INTEGER) {
-      console.error(`[error] Article.likeCount must be integer.`)
+      console.error(`[ERROR] Article : likeCount must be integer.`)
       return MIN
     }
 
@@ -143,7 +143,7 @@ export default class Article {
 
   #verifyCreatedAt(createdAt) {
     // check datatype
-    const string = SprintUtility.from(createdAt, 'string', '[error] Article.createdAt must be a string.')
+    const string = SprintUtility.from(createdAt, 'string', '[ERROR] Article : createdAt must be a string.')
 
     // check requirements
     // date-time
@@ -153,13 +153,13 @@ export default class Article {
     const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
     } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
     } else {
-      console.error(`[error] Article.updatedAt must be $date-$time.`)
+      console.error(`[ERROR] Article : updatedAt must be $date-$time.`)
     }
 
     return string
@@ -167,7 +167,7 @@ export default class Article {
 
   #verifyUpdatedAt(updatedAt) {
     // check datatype
-    const string = SprintUtility.from(updatedAt, 'string', '[error] Article.updatedAt must be a string.')
+    const string = SprintUtility.from(updatedAt, 'string', '[ERROR] Article : updatedAt must be a string.')
 
     // check requirements
     // date-time
@@ -177,13 +177,13 @@ export default class Article {
     const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
     } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[error] Article.updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
+      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
       return EMPTY_DATE
     } else {
-      console.error(`[error] Article.updatedAt must be $date-$time.`)
+      console.error(`[ERROR] Article : updatedAt must be $date-$time.`)
     }
 
     return string
@@ -191,7 +191,7 @@ export default class Article {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(image, ['string', 'null'], `[error] Article.image must be a string.`)
+    const string = SprintUtility.from(image, ['string', 'null'], `[ERROR] Article : image must be a string.`)
 
     // can be null
     if (string === null) {
@@ -205,7 +205,7 @@ export default class Article {
     const EMPTY_URL = 'https://'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.image must start with http://... or https://...`)
+      console.error(`[ERROR] Article : image must start with http://... or https://...`)
       return EMPTY_URL
     }
 

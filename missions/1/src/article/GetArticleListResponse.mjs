@@ -20,12 +20,12 @@ export default class GetArticleListResponse {
 
   #verifyTotalCount(totalCount) {
     // check datatype
-    const number = SprintUtility.from(totalCount, 'number', '[error] ArticleListResponse.totalCount must be a number.')
+    const number = SprintUtility.from(totalCount, 'number', '[ERROR] ArticleListResponse : totalCount must be a number.')
 
     // check requirements
     // only positive
     if (number < 0 || !Number.isInteger(number)) {
-      throw Error(`[error] ArticleListResponse.totalCount must be positive integer.`)
+      throw Error(`[ERROR] ArticleListResponse : totalCount must be positive integer.`)
     }
 
     return number
@@ -33,7 +33,7 @@ export default class GetArticleListResponse {
 
   #verifyList(list) {
     // check datatype
-    const array = SprintUtility.from(list, 'array', '[error] ArticleListResponse.list must be a array.')
+    const array = SprintUtility.from(list, 'array', '[ERROR] ArticleListResponse : list must be a array.')
 
     // check requirements
     // datatype in must be Article 

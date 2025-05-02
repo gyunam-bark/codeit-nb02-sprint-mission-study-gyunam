@@ -14,13 +14,13 @@ export default class GetArticleRequest {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] getArticleRequest : /articles/{articleId} must be a number.')
+    const number = SprintUtility.from(id, 'number', '[ERROR] GetArticleRequest : /articles/{articleId} must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
+      throw Error(`[ERROR] GetArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     }
 
     return number

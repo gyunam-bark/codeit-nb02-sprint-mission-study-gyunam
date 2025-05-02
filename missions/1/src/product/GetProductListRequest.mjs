@@ -27,13 +27,13 @@ export default class GetProductListRequest {
 
   #verifyPage(page) {
     // check datatype
-    const number = SprintUtility.from(page, 'number', '[error] getProductListRequest : /products/ query.page must be a number.')
+    const number = SprintUtility.from(page, 'number', '[ERROR] GetProductListRequest : /products/ query.page must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getProductListRequest : /products/ query.page must be at least ${MIN}.`)
+      throw Error(`[ERROR] GetProductListRequest : /products/ query.page must be at least ${MIN}.`)
     }
 
     return number
@@ -41,13 +41,13 @@ export default class GetProductListRequest {
 
   #verifyPageSize(pageSize) {
     // check datatype
-    const number = SprintUtility.from(pageSize, 'number', '[error] getProductListRequest : /products/ query..pageSize must be a number.')
+    const number = SprintUtility.from(pageSize, 'number', '[ERROR] GetProductListRequest : /products/ query..pageSize must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] getProductListRequest : /products/ query.pageSize must be at least ${MIN}.`)
+      throw Error(`[ERROR] GetProductListRequest : /products/ query.pageSize must be at least ${MIN}.`)
     }
 
     return number
@@ -55,7 +55,7 @@ export default class GetProductListRequest {
 
   #verifyKeyword(keyword) {
     // check datatype
-    const string = SprintUtility.from(keyword, 'string', '[error] getProductListRequest : /products/ query.keyword must be a string.')
+    const string = SprintUtility.from(keyword, 'string', '[ERROR] GetProductListRequest : /products/ query.keyword must be a string.')
 
     // check requirements
     // none

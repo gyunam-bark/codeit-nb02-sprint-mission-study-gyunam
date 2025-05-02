@@ -15,7 +15,7 @@ export default class ElectronicProduct extends Product {
 
   #verifyManufacturer(manufacturer) {
     // check datatype
-    const string = SprintUtility.from(manufacturer, 'string', '[error] ElectronicProduct.manufacurer must be a string.')
+    const string = SprintUtility.from(manufacturer, 'string', '[ERROR] ElectronicProduct : manufacurer must be a string.')
 
     // check requirements
     // none

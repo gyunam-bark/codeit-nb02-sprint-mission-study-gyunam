@@ -32,16 +32,16 @@ export default class PatchArticleRequest {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] PatchArticleRequest : /articles/{articleId} must be a number.')
+    const number = SprintUtility.from(id, 'number', '[ERROR] PatchArticleRequest : /articles/{articleId} must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     const IS_INTEGER = Number.isInteger(number)
     if (number < MIN) {
-      throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
+      throw Error(`[ERROR] PatchArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     } else if (IS_INTEGER === false) {
-      throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be a integer.`)
+      throw Error(`[ERROR] PatchArticleRequest : /articles/{articleId} must be a integer.`)
     }
 
     return number
@@ -49,7 +49,7 @@ export default class PatchArticleRequest {
 
   #verifyTitle(title) {
     // check datatype
-    const string = SprintUtility.from(title, 'string', '[error] PatchArticleRequest : title must be a string.')
+    const string = SprintUtility.from(title, 'string', '[ERROR] PatchArticleRequest : title must be a string.')
 
     // check requirements
     // min=1, max=50
@@ -58,16 +58,16 @@ export default class PatchArticleRequest {
     const stringLength = string.length
 
     if (stringLength < MIN) {
-      throw Error(`[error] PatchArticleRequest : title length at least ${MIN}.`)
+      throw Error(`[ERROR] PatchArticleRequest : title length at least ${MIN}.`)
     } else if (stringLength > 50) {
-      throw Error(`[error] PatchArticleRequest : title length must be smaller than ${MAX}.`)
+      throw Error(`[ERROR] PatchArticleRequest : title length must be smaller than ${MAX}.`)
     }
 
     return string
   }
 
   #verifyContent(content) {
-    const string = SprintUtility.from(content, 'string', '[error] PatchArticleRequest : content must be a string.')
+    const string = SprintUtility.from(content, 'string', '[ERROR] PatchArticleRequest : content must be a string.')
 
     // check requirements
     // min=1
@@ -75,7 +75,7 @@ export default class PatchArticleRequest {
     const stringLength = string.length
 
     if (stringLength < MIN) {
-      throw Error(`[error] PatchArticleRequest : content length at least ${MIN}.`)
+      throw Error(`[ERROR] PatchArticleRequest : content length at least ${MIN}.`)
     }
 
     return string
@@ -83,7 +83,7 @@ export default class PatchArticleRequest {
 
   #verifyImage(image) {
     // check datatype
-    const string = SprintUtility.from(image, ['string', 'null'], `[error] PatchArticleRequest : image must be a string`)
+    const string = SprintUtility.from(image, ['string', 'null'], `[ERROR] PatchArticleRequest : image must be a string`)
 
     // check requirements
     // start with http:// or https:// and at lest 1 character
@@ -91,7 +91,7 @@ export default class PatchArticleRequest {
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] PatchArticleRequest : image must start with http://... or https://...`)
+      console.error(`[ERROR] PatchArticleRequest : image must start with http://... or https://...`)
       return null
     }
 

@@ -13,13 +13,13 @@ export default class DeleteArticleRequest {
 
   #verifyId(id) {
     // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] DeleteArticleRequest : /articles/{articleId} must be a number.')
+    const number = SprintUtility.from(id, 'number', '[ERROR] DeleteArticleRequest : /articles/{articleId} must be a number.')
 
     // check requirements
     // min=1
     const MIN = 1
     if (number < MIN) {
-      throw Error(`[error] DeleteArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
+      throw Error(`[ERROR] DeleteArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
     }
 
     return number
