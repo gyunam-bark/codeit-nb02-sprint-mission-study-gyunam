@@ -7,15 +7,16 @@ export default class CreateProductRequest {
   #tags
   #images
 
-  // requirements : name, description, price, tags, iamges
+  // requirements : name, description, price,
+  // options : tags, iamges
   constructor(schemes = {}) {
     const { name, description, price, tags, images } = schemes
 
     this.#name = this.#verifyName(name)
     this.#description = this.#verifyDescription(description)
     this.#price = this.#verifyPrice(price)
-    this.#tags = this.#verifyTags(tags)
-    this.#images = this.#verifyImages(images)
+    this.#tags = tags !== undefined ? this.#verifyTags(tags) : []
+    this.#images = images !== undefined ? this.#verifyImages(images) : []
   }
 
   get name() {
@@ -88,7 +89,7 @@ export default class CreateProductRequest {
 
     // check requirements
     // min=0
-    const MIN = 1
+    const MIN = 0
 
     const arrayLength = array.length
 
@@ -128,7 +129,7 @@ export default class CreateProductRequest {
 
     // check requirements
     // min=1
-    const MIN = 1
+    const MIN = 0
     const arrayLength = array.length
 
     if (arrayLength < MIN) {

@@ -33,7 +33,7 @@ console.log(`= PRODUCT TEST`)
 console.log(`============================`)
 
 // GET PRODUCT LIST
-const productList = await ProductService.getProductList()
+const productList = await ProductService.getProductList({ page: 1, pageSize: 10 })
 console.log(`[GET] total product list length : ${productList.length}`)
 
 // GET PRODUCT
@@ -41,7 +41,7 @@ const specificProduct = await ProductService.getProduct(productList[0].id)
 console.log(`[GET] ${specificProduct.id} ${specificProduct.name} ${specificProduct.description}`)
 
 // CREATE PRODUCT
-const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, ['전자제품'], ['https://t'])
+const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, { tags: ['전자제품'] })
 console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description} : type[${createdProduct instanceof ElectronicProduct ? 'ElectronicProduct' : 'Product'}]`)
 
 // PATCH PRODUCT
