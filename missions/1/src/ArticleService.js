@@ -5,6 +5,8 @@ import GetArticleRequest from "./GetArticleRequest.mjs";
 import GetArticleListRequest from "./GetArticleListRequest.mjs";
 import GetArticleListResponse from "./GetArticleListResponse.mjs";
 import CreateArticleRequest from "./CreateArticleRequest.mjs";
+import PatchArticleRequest from "./PatchArticleRequest.mjs";
+import PatchArticleResponse from "./PatchArticleResponse.mjs";
 import DeleteArticleRequest from "./DeleteArticleRequest.mjs";
 import DeleteArticleResponse from "./DeleteArticleResponse.mjs"
 
@@ -66,26 +68,13 @@ export default class ArticleService {
         })
   }
 
-  static async patchArticle(articleId = 0, schemes = {}) {
-    const { title, content, image } = schemes
-    const query = {}
-
-    const id = this.#verifyParameterId(articleId)
-
-    if (title !== undefined) {
-      query.title = this.#verifyParameterTitle(title)
+  static async patchArticle(request) {
+    if (request instanceof PatchArticleRequest === false) {
+      throw new TypeError(`[error] patchArticle : request must be a instance of PatchArticleRequest.`)
     }
 
-    if (content !== undefined) {
-      query.content = this.#verifyParameterContent(content)
-    }
-
-    if (image !== undefined) {
-      query.image = this.#verifyParameterImage(image)
-    }
-
-    return this.#axiosInstance.patch(`/${id}`, query)
-      .then(response => Article.fromJson(response.data))
+    return this.#axiosInstance.patch(request.toParameter(), request.toQuery())
+      .then(response => PatchArticleResponse.fromJson(response.data))
       .catch(
         error => {
           throw error
@@ -106,104 +95,4 @@ export default class ArticleService {
           throw error
         })
   }
-
-  static #verifyParameterId(id) {
-    // check datatype
-    const number = SprintUtility.from(id, 'number', '[error] getArticle() and deleteArticle() parameters.id must be a number.')
-
-    // check requirements
-    // min=1
-    if (number < 1) {
-      throw Error(`[error] getArticle() and deleteArticle() parameters.id must be at least 1.`)
-    }
-
-    return number
-  }
-
-  static #verifyParameterPage(page) {
-    // check datatype
-    const number = SprintUtility.from(page, 'number', '[error] getArticleList() parameters.page must be a number.')
-
-    // check requirements
-    // min=1
-    if (number < 1) {
-      throw Error(`[error] getArticleList() parameters.page must be at least 1.`)
-    }
-
-    return number
-  }
-
-  static #verifyParameterPageSize(pageSize) {
-    // check datatype
-    const number = SprintUtility.from(pageSize, 'number', '[error] getArticleList() parameters.pageSize must be a number.')
-
-    // check requirements
-    // min=1
-    if (number < 1) {
-      throw Error(`[error] getArticleList() parameters.pageSize must be at least 1.`)
-    }
-
-    return number
-  }
-
-  static #verifyParameterKeyword(keyword) {
-    // check datatype
-    const string = SprintUtility.from(keyword, 'string', '[error] getArticleList() parameters.keyword must be a string.')
-
-    // check requirements
-    // none
-
-    return string
-  }
-
-  static #verifyParameterTitle(title) {
-    // check datatype
-    const string = SprintUtility.from(title, 'string', '[error] createArticle() parameters.title must be a string.')
-
-    // check requirements
-    // min=1, max=50
-    const stringLength = string.length
-
-    if (!stringLength) {
-      throw Error(`[error] createArticle() parameters.title length at least 1.`)
-    } else if (stringLength > 50) {
-      throw Error(`[error] createArticle() parameters.title length must be smaller than 50.`)
-    }
-
-    return string
-  }
-
-  static #verifyParameterContent(content) {
-    // check datatype
-    const string = SprintUtility.from(content, 'string', '[error] createArticle() parameters.content must be a string.')
-
-    // check requirements
-    // min=1, max=50
-    const stringLength = string.length
-
-    if (!stringLength) {
-      throw Error(`[error] createArticle() parameters.content length at least 1.`)
-    }
-
-    return string
-  }
-
-  static #verifyParameterImage(image) {
-    // check datatype
-    const string = SprintUtility.from(image, ['string', 'null'], `[error] createArticle() parameters.image must be a string or null.`)
-
-    if (string === null) {
-      return null
-    }
-
-    // check requirements
-    const pattern = /^https?:\/\/.+/
-    if (!pattern.test(string)) {
-      console.error(`[error] createArticle() parameters.image must start with http:// or https://.`)
-      return null
-    }
-
-    return image
-  }
-
 }

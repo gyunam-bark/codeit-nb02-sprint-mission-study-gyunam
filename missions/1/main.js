@@ -3,6 +3,7 @@ import CreateArticleRequest from "./src/CreateArticleRequest.mjs"
 import DeleteArticleRequest from "./src/DeleteArticleRequest.mjs"
 import GetArticleListRequest from "./src/GetArticleListRequest.mjs"
 import GetArticleRequest from "./src/GetArticleRequest.mjs"
+import PatchArticleRequest from "./src/PatchArticleRequest.mjs"
 
 
 // GET ARTICLE LIST
@@ -16,12 +17,13 @@ const article = await ArticleService.getArticle(getArticleRequest)
 console.log(`[GET] ${article.id} ${article.title} ${article.content}`)
 
 // CREATE ARTICLE
-const createArticleRequest = new CreateArticleRequest({ title: 'TEST_1', content: 'CONTENT_1' })
+const createArticleRequest = new CreateArticleRequest({ title: 'CREATE_1', content: 'CONTENT_1' })
 const createdArticle = await ArticleService.createArticle(createArticleRequest)
 console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticle.content}`)
 
 // PATCH ARTICLE
-const patchedArticle = await ArticleService.patchArticle(createdArticle.id, { title: 'TITLE_PATCHED' })
+const patchArticleRequest = new PatchArticleRequest({ articleId: createdArticle.id, title: 'PATCH_1' })
+const patchedArticle = await ArticleService.patchArticle(patchArticleRequest)
 console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content}`)
 
 // DELETE ARTICLE

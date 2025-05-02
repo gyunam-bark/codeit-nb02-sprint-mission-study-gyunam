@@ -7,8 +7,8 @@ export default class CreateArticleRequest {
 
   // requirements : title, content
   // options : image
-  constructor(scheme = {}) {
-    const { title, content, image } = scheme
+  constructor(schemes = {}) {
+    const { title, content, image } = schemes
     this.#title = this.#verifyTitle(title)
     this.#content = this.#verifyContent(content)
     this.#image = image !== undefined ? this.#verifyImage(image) : null
