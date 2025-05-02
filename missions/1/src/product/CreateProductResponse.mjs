@@ -1,7 +1,7 @@
 import Product from "./Product.mjs"
 import PRODUCT_FILTER from "./ProductFilter.mjs"
 
-export default class GetProductResponse {
+export default class CreateProductResponse {
   #product
 
   constructor(json) {
@@ -13,7 +13,7 @@ export default class GetProductResponse {
   }
 
   #verifyProduct(json) {
-    const tags = json.tags
+    const tags = json.tags || []
 
     const key = Object.keys(PRODUCT_FILTER).find(tag => tags.includes(tag));
 
@@ -25,6 +25,6 @@ export default class GetProductResponse {
   }
 
   static fromJson(json) {
-    return new GetProductResponse(json)
+    return new CreateProductResponse(json)
   }
 }

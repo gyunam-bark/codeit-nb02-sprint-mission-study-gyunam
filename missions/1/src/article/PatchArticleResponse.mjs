@@ -17,7 +17,6 @@ export default class PatchArticleResponse {
   }
 
   static fromJson(json) {
-    console.log(json)
     return new PatchArticleResponse(json)
   }
 }

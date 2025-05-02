@@ -17,8 +17,9 @@ export default class DeleteArticleResponse {
 
     // check requirements
     // min=1
-    if (number < 1) {
-      throw Error(`[error] deleteArticleResponse : id must be at least 1.`)
+    const MIN = 1
+    if (number < MIN) {
+      throw Error(`[error] deleteArticleResponse : id must be at least ${MIN}.`)
     }
 
     return number
@@ -28,9 +29,4 @@ export default class DeleteArticleResponse {
     return new DeleteArticleResponse(json)
   }
 
-  toJson() {
-    return {
-      id: this.#id
-    }
-  }
 }

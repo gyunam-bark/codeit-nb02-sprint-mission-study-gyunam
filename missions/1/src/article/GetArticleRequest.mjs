@@ -34,10 +34,4 @@ export default class GetArticleRequest {
     return GetArticleRequest(json)
   }
 
-  toJson() {
-    return {
-      articleId: this.#articleId
-    }
-  }
-
 }

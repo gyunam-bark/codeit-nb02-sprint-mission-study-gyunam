@@ -1,5 +1,4 @@
 import axios from "axios";
-import Article from "./article/Article.mjs";
 import GetArticleRequest from "./article/GetArticleRequest.mjs";
 import GetArticleResponse from "./article/GetArticleResponse.mjs";
 import GetArticleListRequest from "./article/GetArticleListRequest.mjs";
@@ -54,14 +53,19 @@ export default class ArticleService {
         error => { throw error })
   }
 
-  static async createArticle(schemes = {}) {
-    const { title, content, image } = schemes
+  static async createArticle(title = '', content = '', schemes = {}) {
+    const { image } = schemes
 
     const request = new CreateArticleRequest({ title: title, content: content, image: image })
 
     return this.#axiosInstance.post(``, request.toQuery())
       .then(
-        response => CreateArticleResponse.fromJson(response.data))
+        response => {
+          const createArticleResponse = CreateArticleResponse.fromJson(response.data)
+          const article = createArticleResponse.article
+
+          return article
+        })
       .catch(error => { throw error })
   }
 

@@ -4,15 +4,17 @@ import ProductService from "./src/ProductService.js"
 console.log(`============================`)
 console.log(`= ARTICLE TEST`)
 console.log(`============================`)
+
 // GET ARTICLE LIST
 const articleList = await ArticleService.getArticleList()
+console.log(`[GET] total article list length : ${articleList.length}`)
 
 // GET ARTICLE
-const article = await ArticleService.getArticle(articleList[0].id)
-console.log(`[GET] ${article.id} ${article.title} ${article.content}`)
+const specificArticle = await ArticleService.getArticle(articleList[0].id)
+console.log(`[GET] ${specificArticle.id} ${specificArticle.title} ${specificArticle.content}`)
 
 // CREATE ARTICLE
-const createdArticle = await ArticleService.createArticle({ title: 'CREATE_1', content: 'CONTENT_1' })
+const createdArticle = await ArticleService.createArticle('CREATE_1', 'CONTENT_1', {})
 console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticle.content}`)
 
 // PATCH ARTICLE
@@ -26,6 +28,15 @@ console.log(`[DELETE] ${deletedId.id}`)
 console.log(`============================`)
 console.log(`= PRODUCT TEST`)
 console.log(`============================`)
+
+// GET PRODUCT LIST
+const productList = await ProductService.getProductList()
+console.log(`[GET] total product list length : ${productList.length}`)
+
 // GET PRODUCT
-const product = await ProductService.getProduct(20)
-console.log(`[GET] ${product.id} ${product.name} ${product.description}`)
+const specificProduct = await ProductService.getProduct(productList[0].id)
+console.log(`[GET] ${specificProduct.id} ${specificProduct.name} ${specificProduct.description}`)
+
+// CREATE PRODUCT
+const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, ['고양이'], ['https://t'])
+console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description}`)

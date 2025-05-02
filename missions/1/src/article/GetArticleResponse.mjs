@@ -17,7 +17,6 @@ export default class GetArticleResponse {
   }
 
   static fromJson(json) {
-    console.log(json)
     return new GetArticleResponse(json)
   }
 }

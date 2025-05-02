@@ -33,9 +33,4 @@ export default class DeleteArticleRequest {
     return DeleteArticleRequest(json)
   }
 
-  toJson() {
-    return {
-      articleId: this.#articleId
-    }
-  }
 }

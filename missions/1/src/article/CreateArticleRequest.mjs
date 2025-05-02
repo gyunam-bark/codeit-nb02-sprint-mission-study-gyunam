@@ -70,7 +70,7 @@ export default class CreateArticleRequest {
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Article.images.image must start with http:// or https://.`)
+      console.error(`[error] Article.images.image must start with http://.. or https://...`)
       return null
     }
 
@@ -92,14 +92,6 @@ export default class CreateArticleRequest {
 
   static fromJson(json) {
     return new CreateArticleRequest(json)
-  }
-
-  toJson() {
-    return {
-      title: this.#title,
-      content: this.#content,
-      image: this.#image
-    }
   }
 
 }

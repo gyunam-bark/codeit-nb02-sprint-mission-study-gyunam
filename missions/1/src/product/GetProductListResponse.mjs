@@ -1,8 +1,8 @@
 import SprintUtility from "../util/SprintUtility.mjs"
 import Product from "./Product.mjs"
-import PRODUCT_FILTER from "./ProductCategoryCallback.mjs"
+import PRODUCT_FILTER from "./ProductFilter.mjs"
 
-export default class getProductListResponse {
+export default class GetProductListResponse {
   #totalCount
   #list
 
@@ -61,6 +61,6 @@ export default class getProductListResponse {
   }
 
   static fromJson(json) {
-    return new GetArticleListResponse(json)
+    return new GetProductListResponse(json)
   }
 }

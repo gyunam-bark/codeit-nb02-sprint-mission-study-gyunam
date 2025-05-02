@@ -125,16 +125,11 @@ export default class Product {
     const array = SprintUtility.from(tags, 'array', '[error] Product.tags must be a array.')
 
     // check requirements
-    // min=0
-    const EMPTY = 0
-    const MIN = 0
+    // min=1
+    const MIN = 1
     const SPACE_STRING = ' '
 
     const arrayLength = array.length
-
-    if (arrayLength === EMPTY) {
-      return array
-    }
 
     if (arrayLength < MIN) {
       console.error(`[error] Product.tags length at least ${MIN}.`)
@@ -148,7 +143,7 @@ export default class Product {
 
   #verifyTag(tag) {
     // check datatype
-    const string = SprintUtility.from(string, 'string', '[error] Product.tags.tag must be a string.')
+    const string = SprintUtility.from(tag, 'string', '[error] Product.tags.tag must be a string.')
 
     // check requirements
     // min=1
@@ -157,14 +152,14 @@ export default class Product {
     const MAX = 20
     const SPACE_STRING = ' '
 
-    const tagLength = tag.length
+    const tagLength = string.length
 
     if (tagLength < MIN) {
       console.error(`[error] Product.tag length at least ${MIN}.`)
       return SPACE_STRING
     } else if (tagLength > MAX) {
       console.error(`[error] Product.tag length must be smaller than ${MAX}.`)
-      return tag.slice(MIN - 1, MAX)
+      return string.slice(MIN - 1, MAX)
     }
 
     return tag
@@ -175,14 +170,9 @@ export default class Product {
     const array = SprintUtility.from(images, 'array', '[error] Product.images must be a array.')
 
     // check requirements
-    // min=0
-    const EMPTY = 0
-    const MIN = 0
+    // min=1
+    const MIN = 1
     const arrayLength = array.length
-
-    if (arrayLength === EMPTY) {
-      return array
-    }
 
     if (arrayLength < MIN) {
       console.error(`[error] Product.images length at least ${MIN}.`)
@@ -199,16 +189,17 @@ export default class Product {
     const string = SprintUtility.from(image, 'string', '[error] Product.image must be a string.')
 
     // check requirements
+    // start with http:// or https:// and at lest 1 character
     const PATTERN = /^https?:\/\/.+/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
     const EMPTY_URL = 'https://'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] Product.images.image must start with http:// or https://.`)
+      console.error(`[error] Product.images.image must start with http://... or https:///...`)
       return EMPTY_URL
     }
 
-    return image
+    return string
   }
 
   #verifyFavoriteCount(favoraiteCount) {

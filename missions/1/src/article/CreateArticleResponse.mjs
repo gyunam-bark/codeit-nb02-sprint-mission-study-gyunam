@@ -1,8 +1,22 @@
 import Article from "./Article.mjs";
 
-// currently response is exactly equal with Article
-export default class CreateArticleResponse extends Article {
-  constructor() {
-    super()
+export default class CreateArticleResponse {
+  #article
+
+  constructor(json) {
+    this.#article = this.#verifyArticle(json)
+  }
+
+  get article() {
+    return this.#article
+  }
+
+  #verifyArticle(json) {
+    // default
+    return Article.fromJson(json)
+  }
+
+  static fromJson(json) {
+    return new CreateArticleResponse(json)
   }
 }

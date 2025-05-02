@@ -11,7 +11,7 @@ export default class PatchArticleRequest {
   constructor(schemes = {}) {
     const { articleId, title, content, image } = schemes
 
-    this.#articleId = this.#verifyId(Number(articleId))
+    this.#articleId = this.#verifyId(articleId)
 
     this.#title = title !== undefined ? this.#verifyTitle(title) : null
     this.#content = content !== undefined ? this.#verifyContent(content) : null
@@ -37,8 +37,11 @@ export default class PatchArticleRequest {
     // check requirements
     // min=1
     const MIN = 1
+    const IS_INTEGER = Number.isInteger(number)
     if (number < MIN) {
       throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be at least ${MIN}.`)
+    } else if (IS_INTEGER === false) {
+      throw Error(`[error] PatchArticleRequest : /articles/{articleId} must be a integer.`)
     }
 
     return number
@@ -83,12 +86,12 @@ export default class PatchArticleRequest {
     const string = SprintUtility.from(image, ['string', 'null'], `[error] PatchArticleRequest : image must be a string`)
 
     // check requirements
+    // start with http:// or https:// and at lest 1 character
     const PATTERN = /^https?:\/\/.+/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const EMPTY_URL = 'https://'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[error] PatchArticleRequest : image must start with http:// or https://.`)
+      console.error(`[error] PatchArticleRequest : image must start with http://... or https://...`)
       return null
     }
 
@@ -119,14 +122,5 @@ export default class PatchArticleRequest {
 
   static fromJson(json) {
     return new PatchArticleRequest(json)
-  }
-
-  toJson() {
-    return {
-      articleId: this.#articleId,
-      title: this.#title,
-      content: this.#content,
-      image: this.#image
-    }
   }
 }
