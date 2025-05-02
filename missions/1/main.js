@@ -1,4 +1,5 @@
 import ArticleService from "./src/ArticleService.js"
+import ElectronicProduct from "./src/product/ElectronicProduct.mjs"
 import ProductService from "./src/ProductService.js"
 
 console.log(`============================`)
@@ -40,8 +41,8 @@ const specificProduct = await ProductService.getProduct(productList[0].id)
 console.log(`[GET] ${specificProduct.id} ${specificProduct.name} ${specificProduct.description}`)
 
 // CREATE PRODUCT
-const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, ['고양이'], ['https://t'])
-console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description}`)
+const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, ['전자제품'], ['https://t'])
+console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description} : type[${createdProduct instanceof ElectronicProduct ? 'ElectronicProduct' : 'Product'}]`)
 
 // PATCH PRODUCT
 const patchedProduct = await ProductService.patchProduct(createdProduct.id, { name: "건담", description: "더 귀여운 고양이" })
