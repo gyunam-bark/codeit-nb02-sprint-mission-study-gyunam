@@ -45,8 +45,9 @@ export default class ProductService {
     } catch (error) { throw error }
   }
 
-  static async createProduct(name = '', description = '', price = 0, tags = [], images = []) {
+  static async createProduct(name = '', description = '', price = 0, schemes = {}) {
     try {
+      const { tags, images } = schemes
       const request = new CreateProductRequest({ name: name, description: description, price: price, tags: tags, images: images })
       const response = await this.#axiosInstance.post(``, request.toQuery())
       const createProductResponse = CreateProductResponse.fromJson(response.data)

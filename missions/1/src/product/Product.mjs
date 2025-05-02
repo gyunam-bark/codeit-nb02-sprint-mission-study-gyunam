@@ -125,15 +125,13 @@ export default class Product {
     const array = SprintUtility.from(tags, 'array', '[ERROR] Product : tags must be a array.')
 
     // check requirements
-    // min=1
-    const MIN = 1
-    const SPACE_STRING = ' '
+    // min=0
+    const MIN = 0
 
     const arrayLength = array.length
 
     if (arrayLength < MIN) {
-      console.error(`[ERROR] Product : tags length at least ${MIN}.`)
-      return [SPACE_STRING]
+      throw new Error(`[ERROR] Product : tags length at least ${MIN}.`)
     }
 
     const verifiedArray = array.map((tag) => this.#verifyTag(tag))
@@ -150,16 +148,13 @@ export default class Product {
     // max=20
     const MIN = 1
     const MAX = 20
-    const SPACE_STRING = ' '
 
     const tagLength = string.length
 
     if (tagLength < MIN) {
-      console.error(`[ERROR] Product : tag length at least ${MIN}.`)
-      return SPACE_STRING
+      throw new Error(`[ERROR] Product : tag length at least ${MIN}.`)
     } else if (tagLength > MAX) {
-      console.error(`[ERROR] Product : tag length must be smaller than ${MAX}.`)
-      return string.slice(MIN - 1, MAX)
+      throw new Error(`[ERROR] Product : tag length must be smaller than ${MAX}.`)
     }
 
     return tag
@@ -168,16 +163,13 @@ export default class Product {
   #verifyImages(images) {
     // check datatype
     const array = SprintUtility.from(images, 'array', '[ERROR] Product : images must be a array.')
-
     // check requirements
-    // min=1
-    const MIN = 1
+    // min=0
+    const MIN = 0
     const arrayLength = array.length
-    const EMPTY_URL = 'https://.'
 
     if (arrayLength < MIN) {
-      console.error(`[ERROR] Product : images length at least ${MIN}.`)
-      return [EMPTY_URL]
+      throw new Error(`[ERROR] Product : images length at least ${MIN}.`)
     }
 
     const verifiedArray = array.map((image) => this.#verifyImage(image))
@@ -196,8 +188,7 @@ export default class Product {
     const EMPTY_URL = 'https://.'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[ERROR] Product : images.image must start with http://... or https:///...`)
-      return EMPTY_URL
+      throw new Error(`[ERROR] Product : images.image must start with http://... or https:///...`)
     }
 
     return string
@@ -213,11 +204,9 @@ export default class Product {
     const IS_NOT_INTEGER = !Number.isInteger(favoraiteCount)
 
     if (number < MIN) {
-      console.error(`[ERROR] Product : favoraiteCount must be positive.`)
-      return MIN
+      throw new Error(`[ERROR] Product : favoraiteCount must be positive.`)
     } else if (IS_NOT_INTEGER) {
-      console.error(`[ERROR] Product : favoraiteCount must be integer.`)
-      return MIN
+      throw new Error(`[ERROR] Product : favoraiteCount must be integer.`)
     }
 
     return number
@@ -232,14 +221,11 @@ export default class Product {
     const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
     const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
     const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
-    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
 
     if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
+      throw new Error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
     } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
+      throw new Error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
     }
 
     return string
