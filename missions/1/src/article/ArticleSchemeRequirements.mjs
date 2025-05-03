@@ -1,4 +1,6 @@
 import SprintUtility from "../util/SprintUtility.mjs"
+import ArticleEnums from "./ArticleEnums.mjs"
+import Article from "./Article.mjs"
 
 export default class ArticleSchemeRequirements {
   static #article = 'Article'
@@ -114,7 +116,77 @@ export default class ArticleSchemeRequirements {
   }
 
   static checkPageReuqirements(page) {
+    const scheme = { page: page }
 
+    const key = this.#getKey(scheme, page)
+    const number = this.#checkType(key, page, 'number')
+
+    this.#checkNumberRange(key, number, { min: 1 })
+
+    return number
+  }
+
+  static checkPageSizeRequirements(pageSize) {
+    const scheme = { pageSize: pageSize }
+
+    const key = this.#getKey(scheme, pageSize)
+    const number = this.#checkType(key, pageSize, 'number')
+
+    this.#checkNumberRange(key, number, { min: 1 })
+
+    return number
+  }
+
+  static checkKeywordRequirements(keyword) {
+    const scheme = { keyword: keyword }
+
+    const key = this.#getKey(scheme, keyword)
+    const string = this.#checkType(key, keyword, 'string')
+
+    // check requirements
+    // none
+    this.#checkStringRange(key, string, {})
+
+    return string
+  }
+
+  static checkOrderByRequirements(orderBy) {
+    const scheme = { orderBy: orderBy }
+
+    const key = this.#getKey(scheme, orderBy)
+    const string = this.#checkType(key, orderBy, 'string')
+
+    // check requirements
+    // none
+    this.#checkEnums(key, ArticleEnums.ORDER_BY, orderBy)
+
+    return string
+  }
+
+  static checkTotalCountRequirements(totalCount) {
+    const scheme = { totalCount: totalCount }
+
+    const key = this.#getKey(scheme, totalCount)
+    const number = this.#checkType(key, totalCount, 'number')
+
+    this.#checkNumberRange(key, number, {})
+
+    return number
+  }
+
+  static checkListRequirements(list) {
+    const scheme = { list: list }
+
+    const key = this.#getKey(scheme, list)
+    const array = this.#checkType(key, list, 'array')
+
+    const articleList = []
+
+    for (const json of array) {
+      articleList.push(Article.fromJson(json))
+    }
+
+    return articleList
   }
 
   static #getKey(scheme, value) {
@@ -124,6 +196,18 @@ export default class ArticleSchemeRequirements {
   static #checkType(key = '', value = 0, type = '' | []) {
     const checkTypErrorMessage = `[ERROR][SCHEME] ${this.#article} 의 ${key} 가 ${typeof value} 입니다. ${key} 는 ${type} 이어야 합니다.`
     return SprintUtility.from(value, type, checkTypErrorMessage)
+  }
+
+  static #checkEnums(key, enums, value) {
+    const items = Object.values(enums)
+    const isValidItem = items.includes(value)
+
+    if (isValidItem === false) {
+      const checkEnumsErrorMessage = `[ERROR][SCHEME] ${this.#article} 의 ${key} 가 ${typeof value} 입니다. ${key} 는 ${enums} 중에 하나여야 합니다.`
+      throw new Error(checkEnumsErrorMessage)
+    }
+
+    return value
   }
 
   static #checkNumberRange(key = '', number = 0, range = { min, max }) {
@@ -142,7 +226,7 @@ export default class ArticleSchemeRequirements {
       throw new Error(checkRequirementsErrorMessage)
     }
 
-    return true
+    return number
   }
 
   static #checkStringRange(key = '', string = '', range = { min, max }) {
@@ -151,7 +235,7 @@ export default class ArticleSchemeRequirements {
 
     this.#checkNumberRange(`${key} 의 내용`, length, { min: min, max: max })
 
-    return true
+    return string
   }
 
   static #checkUrl(key = '', url = '', pattern) {
@@ -159,7 +243,7 @@ export default class ArticleSchemeRequirements {
       throw new Error(`[ERROR][SCHEME] ${this.#article} 의 ${key} 가 ${url} 입니다. ${key} 는 http:// 또는 https:// 로 시작해야 하고, 반드시 한 글자 이상의 주소가 있어야 합니다.`)
     }
 
-    return true
+    return url
   }
 
   static #checkDate(key = '', date = '', pattern) {
@@ -168,6 +252,6 @@ export default class ArticleSchemeRequirements {
       throw new Error(`[ERROR][SCHEME] ${this.#article} 의 ${key} 가 ${date} 입니다. ${key} 는 '년년년년-월월-일일T시시:분분:초초.협정시Z' 의 형태여야 합니다.`)
     }
 
-    return true
+    return date
   }
 }

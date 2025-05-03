@@ -7,7 +7,7 @@ console.log(`= ARTICLE TEST`)
 console.log(`============================`)
 
 // GET ARTICLE LIST
-const articleList = await ArticleService.getArticleList()
+const articleList = await ArticleService.getArticleList({ page: 1, pageSize: 5, keyword: '', orderBy: ArticleService.ORDER_BY.RECENT })
 console.log(`[GET] total article list length : ${articleList.length}`)
 
 // GET ARTICLE
