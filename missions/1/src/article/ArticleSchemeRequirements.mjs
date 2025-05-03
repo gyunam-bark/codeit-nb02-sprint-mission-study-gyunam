@@ -113,6 +113,10 @@ export default class ArticleSchemeRequirements {
     return string
   }
 
+  static checkPageReuqirements(page) {
+
+  }
+
   static #getKey(scheme, value) {
     return Object.keys(scheme).find((k) => scheme[k] === value)
   }
