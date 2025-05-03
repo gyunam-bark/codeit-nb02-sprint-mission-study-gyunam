@@ -1,4 +1,5 @@
 import SprintUtility from "../util/SprintUtility.mjs"
+import ProductSchemeRequirements from "./ProductSchemeRequirements.mjs"
 
 export default class Product {
   #id
@@ -11,14 +12,14 @@ export default class Product {
   #createdAt
 
   constructor({ id = 0, name = '', description = '', price = 0, tags = [], images = [], favoriteCount = 0, createdAt = '' }) {
-    this.#id = this.#verifyId(id)
-    this.#name = this.#verifyName(name)
-    this.#description = this.#verifyDescription(description)
-    this.#price = this.#verifyPrice(price)
-    this.#tags = this.#verifyTags(tags)
-    this.#images = this.#verifyImages(images)
-    this.#favoriteCount = this.#verifyFavoriteCount(favoriteCount)
-    this.#createdAt = this.#verifyCreatedAt(createdAt)
+    this.#id = ProductSchemeRequirements.checkIdRequirements(id)
+    this.#name = ProductSchemeRequirements.checkNameRequirements(name)
+    this.#description = ProductSchemeRequirements.checkDescriptionRequirements(description)
+    this.#price = ProductSchemeRequirements.checkPriceRequirements(price)
+    this.#tags = ProductSchemeRequirements.checkTagsRequirements(tags)
+    this.#images = ProductSchemeRequirements.checkImagesRequirements(images)
+    this.#favoriteCount = ProductSchemeRequirements.checkFavoriteCountRequirements(favoriteCount)
+    this.#createdAt = ProductSchemeRequirements.checkCreatedAtRequirements(createdAt)
   }
 
   get id() {
@@ -55,183 +56,5 @@ export default class Product {
 
   favorite() {
     this.#favoriteCount += 1
-  }
-
-  #verifyId(id) {
-    // check datatype
-    const number = SprintUtility.from(id, 'number', '[ERROR] Product : id must be a number.')
-
-    // check requirements
-    // min=1
-    const MIN = 1
-    if (number < MIN) {
-      console.error(`[ERROR] Product : id must be at least ${MIN}.`)
-      return MIN
-    }
-
-    return number
-  }
-
-  #verifyName(name) {
-    // check datatype
-    const string = SprintUtility.from(name, 'string', '[ERROR] Product : name must be a string.')
-
-    // check requirements
-    // min=1, max=30
-    const stringLength = string.length
-    const MIN = 1
-    const MAX = 30
-    const SPACE_STRING = ' '
-
-    if (stringLength < MIN) {
-      console.error(`[ERROR] Product : title length at least 1.`)
-      return SPACE_STRING
-    } else if (stringLength > MAX) {
-      console.error(`[ERROR] Product : title length must be smaller than ${MAX}`)
-      return string.slice(MIN - 1, MAX)
-    }
-
-    return string
-  }
-
-  #verifyDescription(description) {
-    // check datatype
-    const string = SprintUtility.from(description, 'string', '[ERROR] Product : description must be a string.')
-
-    // check requirements
-    // none
-
-    return string
-  }
-
-  #verifyPrice(price) {
-    // check datatype
-    const number = SprintUtility.from(price, 'number', '[ERROR] Product : price must be a number.')
-
-    // check requirements
-    // min=0
-    const MIN = 0
-
-    if (number < MIN) {
-      console.error(`[ERROR] Product : price must be positive.`)
-      return MIN
-    }
-
-    return price
-  }
-
-  #verifyTags(tags) {
-    // check datatype
-    const array = SprintUtility.from(tags, 'array', '[ERROR] Product : tags must be a array.')
-
-    // check requirements
-    // min=0
-    const MIN = 0
-
-    const arrayLength = array.length
-
-    if (arrayLength < MIN) {
-      throw new Error(`[ERROR] Product : tags length at least ${MIN}.`)
-    }
-
-    const verifiedArray = array.map((tag) => this.#verifyTag(tag))
-
-    return verifiedArray
-  }
-
-  #verifyTag(tag) {
-    // check datatype
-    const string = SprintUtility.from(tag, 'string', '[ERROR] Product : tags.tag must be a string.')
-
-    // check requirements
-    // min=1
-    // max=20
-    const MIN = 1
-    const MAX = 20
-
-    const tagLength = string.length
-
-    if (tagLength < MIN) {
-      throw new Error(`[ERROR] Product : tag length at least ${MIN}.`)
-    } else if (tagLength > MAX) {
-      throw new Error(`[ERROR] Product : tag length must be smaller than ${MAX}.`)
-    }
-
-    return tag
-  }
-
-  #verifyImages(images) {
-    // check datatype
-    const array = SprintUtility.from(images, 'array', '[ERROR] Product : images must be a array.')
-    // check requirements
-    // min=0
-    const MIN = 0
-    const arrayLength = array.length
-
-    if (arrayLength < MIN) {
-      throw new Error(`[ERROR] Product : images length at least ${MIN}.`)
-    }
-
-    const verifiedArray = array.map((image) => this.#verifyImage(image))
-
-    return verifiedArray
-  }
-
-  #verifyImage(image) {
-    // check datatype
-    const string = SprintUtility.from(image, 'string', '[ERROR] Product : image must be a string.')
-
-    // check requirements
-    // start with http:// or https:// and at lest 1 character
-    const PATTERN = /^https?:\/\/.+/
-    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const EMPTY_URL = 'https://.'
-
-    if (IS_NOT_FOLLOW_PATTERN) {
-      throw new Error(`[ERROR] Product : images.image must start with http://... or https:///...`)
-    }
-
-    return string
-  }
-
-  #verifyFavoriteCount(favoraiteCount) {
-    // check datatype
-    const number = SprintUtility.from(favoraiteCount, 'number', '[ERROR] Product : favoraiteCount must be a number.')
-
-    // check requirements
-    // none
-    const MIN = 0
-    const IS_NOT_INTEGER = !Number.isInteger(favoraiteCount)
-
-    if (number < MIN) {
-      throw new Error(`[ERROR] Product : favoraiteCount must be positive.`)
-    } else if (IS_NOT_INTEGER) {
-      throw new Error(`[ERROR] Product : favoraiteCount must be integer.`)
-    }
-
-    return number
-  }
-
-  #verifyCreatedAt(createdAt) {
-    // check datatype
-    const string = SprintUtility.from(createdAt, 'string', '[ERROR] Product : createdAt must be a string.')
-
-    // check requirements
-    // date-time
-    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
-    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
-
-    if (IS_NOT_FOLLOW_PATTERN) {
-      throw new Error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-    } else if (IS_NOT_EVENT_DATE_LIKE) {
-      throw new Error(`[ERROR] Product : createdAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-    }
-
-    return string
-  }
-
-  static fromJson(json) {
-    return new Product(json)
   }
 }

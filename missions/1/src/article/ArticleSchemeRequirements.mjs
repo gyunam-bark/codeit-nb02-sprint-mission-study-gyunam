@@ -88,6 +88,7 @@ export default class ArticleSchemeRequirements {
       return string
     }
 
+    // check requirements
     this.#checkUrl(key, string, /^https?:\/\/.+/)
 
     return string
@@ -99,6 +100,7 @@ export default class ArticleSchemeRequirements {
     const key = this.#getKey(scheme, createdAt)
     const string = this.#checkType(key, createdAt, 'string')
 
+    // check requirements
     this.#checkDate(key, string, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
 
     return string
@@ -110,6 +112,7 @@ export default class ArticleSchemeRequirements {
     const key = this.#getKey(scheme, updatedAt)
     const string = this.#checkType(key, updatedAt, 'string')
 
+    // check requirements
     this.#checkDate(key, string, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
 
     return string
@@ -121,7 +124,10 @@ export default class ArticleSchemeRequirements {
     const key = this.#getKey(scheme, page)
     const number = this.#checkType(key, page, 'number')
 
-    this.#checkNumberRange(key, number, { min: 1 })
+    // check requirements
+    // min=1
+    const MIN = 1
+    this.#checkNumberRange(key, number, { min: MIN })
 
     return number
   }
@@ -132,7 +138,10 @@ export default class ArticleSchemeRequirements {
     const key = this.#getKey(scheme, pageSize)
     const number = this.#checkType(key, pageSize, 'number')
 
-    this.#checkNumberRange(key, number, { min: 1 })
+    // check requirements
+    // min=1
+    const MIN = 1
+    this.#checkNumberRange(key, number, { min: MIN })
 
     return number
   }

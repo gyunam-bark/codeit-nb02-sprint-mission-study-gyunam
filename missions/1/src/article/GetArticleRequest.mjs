@@ -1,5 +1,3 @@
-// /articles/{articleId}
-import SprintUtility from "../util/SprintUtility.mjs"
 import ArticleSchemeRequirements from "./ArticleSchemeRequirements.mjs"
 
 export default class GetArticleRequest {
@@ -20,5 +18,4 @@ export default class GetArticleRequest {
   static fromJson(json) {
     return GetArticleRequest(json)
   }
-
 }

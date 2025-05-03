@@ -9,8 +9,11 @@ import PatchProductRequest from "./product/PatchProductRequest.mjs";
 import PatchProductResponse from "./product/PatchProductResponse.mjs";
 import DeleteProductRequest from "./product/DeleteProductRequest.mjs";
 import DeleteProductResponse from "./product/DeleteProductResponse.mjs"
+import ProductEnums from "./product/ProductEnums.mjs";
 
 export default class ProductService {
+  static ORDER_BY = ProductEnums.ORDER_BY
+
   static #axiosInstance = new axios.create({
     baseURL: 'https://panda-market-api-crud.vercel.app/products',
     headers: {
@@ -34,9 +37,9 @@ export default class ProductService {
 
   static async getProductList(schemes = {}) {
     try {
-      const { page, pageSize, keyword } = schemes
+      const { page, pageSize, keyword, orderBy } = schemes
 
-      const request = new GetProductListRequest({ page: page, pageSize: pageSize, keyword: keyword })
+      const request = new GetProductListRequest({ page: page, pageSize: pageSize, keyword: keyword, orderBy: orderBy })
       const response = await this.#axiosInstance.get(``, { params: request.toQuery() })
       const getProductListResponse = GetProductListResponse.fromJson(response.data)
       const productList = getProductListResponse.list

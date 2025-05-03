@@ -6,20 +6,21 @@ console.log(`============================`)
 console.log(`= ARTICLE TEST`)
 console.log(`============================`)
 
+// CREATE ARTICLE
+const createdArticle = await ArticleService.createArticle('CREATED_TITLE', 'CREATED_CONTENT', {})
+console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticle.content}`)
+
 // GET ARTICLE LIST
-const articleList = await ArticleService.getArticleList({ page: 1, pageSize: 5, keyword: '', orderBy: ArticleService.ORDER_BY.RECENT })
-console.log(`[GET] total article list length : ${articleList.length}`)
+const articleList = await ArticleService.getArticleList({ page: 1, pageSize: 5, keyword: 'CREATED_TITLE', orderBy: ArticleService.ORDER_BY.RECENT })
+const articleTitles = articleList.map((article) => { return `[${article.id}](${article.title})` })
+console.log(`[GET] LIST : ${articleTitles}`)
 
 // GET ARTICLE
 const specificArticle = await ArticleService.getArticle(articleList[0].id)
 console.log(`[GET] ${specificArticle.id} ${specificArticle.title} ${specificArticle.content}`)
 
-// CREATE ARTICLE
-const createdArticle = await ArticleService.createArticle('CREATE_1', 'CONTENT_1', {})
-console.log(`[POST] ${createdArticle.id} ${createdArticle.title} ${createdArticle.content}`)
-
 // PATCH ARTICLE
-const patchedArticle = await ArticleService.patchArticle(createdArticle.id, { title: 'PATCH_1' })
+const patchedArticle = await ArticleService.patchArticle(createdArticle.id, { title: 'PATCHED_CONTENT', content: 'PATCHED_CONTENT' })
 console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content} : like[${patchedArticle.likeCount}]`)
 patchedArticle.like()
 console.log(`[PATCH] ${patchedArticle.id} ${patchedArticle.title} ${patchedArticle.content} : like[${patchedArticle.likeCount}]`)
@@ -32,20 +33,21 @@ console.log(`============================`)
 console.log(`= PRODUCT TEST`)
 console.log(`============================`)
 
+// CREATE PRODUCT
+const createdProduct = await ProductService.createProduct('CREATED_NAME', 'CREATED_DESCRIPTION', 100, { tags: ['전자제품'], images: ['https://.'] })
+console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description} : TYPE[${createdProduct instanceof ElectronicProduct ? 'ElectronicProduct' : 'Product'}]`)
+
 // GET PRODUCT LIST
-const productList = await ProductService.getProductList({ page: 1, pageSize: 10 })
-console.log(`[GET] total product list length : ${productList.length}`)
+const productList = await ProductService.getProductList({ page: 1, pageSize: 5, keyword: 'CREATED_NAME', orderBy: ProductService.ORDER_BY.RECENT })
+const productTitleList = productList.map((product) => { return `[${product.id}](${product.name})` })
+console.log(`[GET] LIST : ${productTitleList}`)
 
 // GET PRODUCT
 const specificProduct = await ProductService.getProduct(productList[0].id)
 console.log(`[GET] ${specificProduct.id} ${specificProduct.name} ${specificProduct.description}`)
 
-// CREATE PRODUCT
-const createdProduct = await ProductService.createProduct('황태', '귀여운 고양이', 100, { tags: ['전자제품'] })
-console.log(`[POST] ${createdProduct.id} ${createdProduct.name} ${createdProduct.description} : type[${createdProduct instanceof ElectronicProduct ? 'ElectronicProduct' : 'Product'}]`)
-
 // PATCH PRODUCT
-const patchedProduct = await ProductService.patchProduct(createdProduct.id, { name: "건담", description: "더 귀여운 고양이" })
+const patchedProduct = await ProductService.patchProduct(createdProduct.id, { name: "PATCHED_NAME", description: "PATCHED_DESCRIPTION" })
 console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description} : favorite[${patchedProduct.favoriteCount}]`)
 patchedProduct.favorite()
 console.log(`[PATCH] ${patchedProduct.id} ${patchedProduct.name} ${patchedProduct.description} : favorite[${patchedProduct.favoriteCount}]`)

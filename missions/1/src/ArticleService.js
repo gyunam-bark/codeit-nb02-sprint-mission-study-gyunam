@@ -13,6 +13,7 @@ import ArticleEnums from "./article/ArticleEnums.mjs";
 
 export default class ArticleService {
   static ORDER_BY = ArticleEnums.ORDER_BY
+
   static #axiosInstance = new axios.create({
     baseURL: 'https://panda-market-api-crud.vercel.app/articles',
     headers: {
