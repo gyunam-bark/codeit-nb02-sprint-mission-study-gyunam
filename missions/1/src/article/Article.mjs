@@ -1,4 +1,5 @@
 import SprintUtility from "../util/SprintUtility.mjs"
+import ArticleSchemeRequirements from "./ArticleSchemeRequirements.mjs"
 
 export default class Article {
   #id
@@ -11,14 +12,14 @@ export default class Article {
   #updatedAt
 
   constructor({ id = 0, title = '', content = '', writer = '', likeCount = 0, createdAt = '', updatedAt = '', image = '' }) {
-    this.#id = this.#verifyId(id)
-    this.#title = this.#verifyTitle(title)
-    this.#content = this.#verifyContent(content)
-    this.#writer = this.#verifyWriter(writer)
-    this.#likeCount = this.#verifyLike(likeCount)
-    this.#createdAt = this.#verifyCreatedAt(createdAt)
-    this.#updatedAt = this.#verifyUpdatedAt(updatedAt)
-    this.#image = this.#verifyImage(image)
+    this.#id = ArticleSchemeRequirements.checkIdRequirements(id)
+    this.#title = ArticleSchemeRequirements.checkTitleRequirements(title)
+    this.#content = ArticleSchemeRequirements.checkContentRequirements(content)
+    this.#image = ArticleSchemeRequirements.checkImageRequirements(image)
+    this.#writer = ArticleSchemeRequirements.checkWriterRequirements(writer)
+    this.#likeCount = ArticleSchemeRequirements.checkLikeCountRequirements(likeCount)
+    this.#createdAt = ArticleSchemeRequirements.checkCreatedAtRequirements(createdAt)
+    this.#updatedAt = ArticleSchemeRequirements.checkUpdatedAtRequirements(updatedAt)
   }
 
   get id() {
@@ -55,156 +56,6 @@ export default class Article {
 
   like() {
     this.#likeCount += 1
-  }
-
-  #verifyId(id) {
-    // check datatype
-    const number = SprintUtility.from(id, 'number', '[ERROR] Article : id must be a number.')
-
-    // check requirements
-    // min=1
-    const MIN = 1
-    if (number < MIN) {
-      console.error(`[ERROR] Article : id must be at least ${MIN}.`)
-      return MIN
-    }
-
-    return number
-  }
-
-  #verifyTitle(title) {
-    // check datatype
-    const string = SprintUtility.from(title, 'string', '[ERROR] Article. : itle must be a string.')
-
-    // check requirements
-    // min=1, max=50
-    const stringLength = string.length
-    const MIN = 1
-    const MAX = 50
-    const SPACE_STRING = ' '
-
-    if (stringLength < MIN) {
-      console.error(`[ERROR] Article : title length at least ${MIN}.`)
-      return SPACE_STRING
-    } else if (stringLength > MAX) {
-      console.error(`[ERROR] Article : title length must be smaller than ${MAX}.`)
-      return string.slice(MIN - 1, MAX)
-    }
-
-    return string
-  }
-
-  #verifyContent(content) {
-    // check datatype
-    const string = SprintUtility.from(content, 'string', '[ERROR] Article : content must be a string.')
-
-    // check requirements
-    // min=1
-    const stringLength = string.length
-    const MIN = 1
-    const SPACE_STRING = ' '
-    if (stringLength < MIN) {
-      console.error(`[ERROR] Article : content length must be at leat ${MIN}.`)
-      return SPACE_STRING
-    }
-
-    return string
-  }
-
-  #verifyWriter(writer) {
-    // check datatype
-    const string = SprintUtility.from(writer, ['string', 'null'], '[ERROR] Article : writer must be a string.')
-
-    // check requirements
-    // none
-
-    return string
-  }
-
-  #verifyLike(likeCount) {
-    // check datatype
-    const number = SprintUtility.from(likeCount, 'number', '[ERROR] Article : likeCount must be a number.')
-
-    // check requirements
-    // none
-    const MIN = 0
-    const IS_NOT_INTEGER = !Number.isInteger(likeCount)
-
-    if (number < MIN) {
-      console.error(`[ERROR] Article : likeCount must be positive.`)
-      return MIN
-    } else if (IS_NOT_INTEGER) {
-      console.error(`[ERROR] Article : likeCount must be integer.`)
-      return MIN
-    }
-
-    return number
-  }
-
-  #verifyCreatedAt(createdAt) {
-    // check datatype
-    const string = SprintUtility.from(createdAt, 'string', '[ERROR] Article : createdAt must be a string.')
-
-    // check requirements
-    // date-time
-    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
-    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
-    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
-
-    if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
-    } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
-    }
-
-    return string
-  }
-
-  #verifyUpdatedAt(updatedAt) {
-    // check datatype
-    const string = SprintUtility.from(updatedAt, 'string', '[ERROR] Article : updatedAt must be a string.')
-    // check requirements
-    // date-time
-    const PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
-    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const IS_NOT_EVENT_DATE_LIKE = !Date.parse(string)
-    const EMPTY_DATE = '0000-00-00T00:00:00.000Z'
-
-    if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
-    } else if (IS_NOT_EVENT_DATE_LIKE) {
-      console.error(`[ERROR] Article : updatedAt must follow iso date time(yyyy-mm-ddThh:mm:ss.zzzZ).`)
-      return EMPTY_DATE
-    }
-
-    return string
-  }
-
-  #verifyImage(image) {
-    // check datatype
-    const string = SprintUtility.from(image, ['string', 'null'], `[ERROR] Article : image must be a string.`)
-
-    // can be null
-    if (string === null) {
-      return 'null'
-    }
-
-    // check requirements
-    // start with http:// or https:// and at lest 1 character
-    const PATTERN = /^https?:\/\/.+/
-    const IS_NOT_FOLLOW_PATTERN = !PATTERN.test(string)
-    const EMPTY_URL = 'https://.'
-
-    if (IS_NOT_FOLLOW_PATTERN) {
-      console.error(`[ERROR] Article : image must start with http://... or https://...`)
-      return EMPTY_URL
-    }
-
-    return image
   }
 
   static fromJson(json) {
