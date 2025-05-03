@@ -1,4 +1,3 @@
-import SprintUtility from "../util/SprintUtility.mjs";
 import ArticleSchemeRequirements from "./ArticleSchemeRequirements.mjs";
 
 export default class PatchArticleRequest {
