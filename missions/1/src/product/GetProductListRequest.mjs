@@ -1,16 +1,19 @@
 import SprintUtility from "../util/SprintUtility.mjs"
+import ProductSchemeRequirements from "./ProductSchemeRequirements.mjs"
 
 export default class GetProductListRequest {
   #page
   #pageSize
   #keyword
+  #orderBy
 
   constructor(scheme = {}) {
-    const { page, pageSize, keyword } = scheme
+    const { page, pageSize, keyword, orderBy } = scheme
 
-    this.#page = page !== undefined ? this.#verifyPage(page) : null
-    this.#pageSize = pageSize !== undefined ? this.#verifyPageSize(pageSize) : null
-    this.#keyword = keyword !== undefined ? this.#verifyKeyword(keyword) : null
+    this.#page = page !== undefined ? ProductSchemeRequirements.checkPageReuqirements(page) : null
+    this.#pageSize = pageSize !== undefined ? ProductSchemeRequirements.checkPageSizeRequirements(pageSize) : null
+    this.#keyword = keyword !== undefined ? ProductSchemeRequirements.checkKeywordRequirements(keyword) : null
+    this.#orderBy = orderBy !== undefined ? ProductSchemeRequirements.checkOrderByRequirements(orderBy) : null
   }
 
   get page() {
@@ -23,44 +26,6 @@ export default class GetProductListRequest {
 
   get keyword() {
     return this.#keyword
-  }
-
-  #verifyPage(page) {
-    // check datatype
-    const number = SprintUtility.from(page, 'number', '[ERROR] GetProductListRequest : /products/ query.page must be a number.')
-
-    // check requirements
-    // min=1
-    const MIN = 1
-    if (number < MIN) {
-      throw Error(`[ERROR] GetProductListRequest : /products/ query.page must be at least ${MIN}.`)
-    }
-
-    return number
-  }
-
-  #verifyPageSize(pageSize) {
-    // check datatype
-    const number = SprintUtility.from(pageSize, 'number', '[ERROR] GetProductListRequest : /products/ query..pageSize must be a number.')
-
-    // check requirements
-    // min=1
-    const MIN = 1
-    if (number < MIN) {
-      throw Error(`[ERROR] GetProductListRequest : /products/ query.pageSize must be at least ${MIN}.`)
-    }
-
-    return number
-  }
-
-  #verifyKeyword(keyword) {
-    // check datatype
-    const string = SprintUtility.from(keyword, 'string', '[ERROR] GetProductListRequest : /products/ query.keyword must be a string.')
-
-    // check requirements
-    // none
-
-    return string
   }
 
   toQuery() {
@@ -76,6 +41,10 @@ export default class GetProductListRequest {
 
     if (this.#keyword !== null) {
       query.keyword = this.#keyword
+    }
+
+    if (this.#orderBy !== null) {
+      query.orderBy = this.#orderBy
     }
 
     return query

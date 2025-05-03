@@ -4,16 +4,11 @@ export default class GetArticleResponse {
   #article
 
   constructor(json) {
-    this.#article = this.#verifyArticle(json)
+    this.#article = Article.fromJson(json)
   }
 
   get article() {
     return this.#article
-  }
-
-  #verifyArticle(json) {
-    // default
-    return Article.fromJson(json)
   }
 
   static fromJson(json) {

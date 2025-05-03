@@ -9,9 +9,11 @@ import PatchArticleRequest from "./article/PatchArticleRequest.mjs";
 import PatchArticleResponse from "./article/PatchArticleResponse.mjs";
 import DeleteArticleRequest from "./article/DeleteArticleRequest.mjs";
 import DeleteArticleResponse from "./article/DeleteArticleResponse.mjs"
-
+import ArticleEnums from "./article/ArticleEnums.mjs";
 
 export default class ArticleService {
+  static ORDER_BY = ArticleEnums.ORDER_BY
+
   static #axiosInstance = new axios.create({
     baseURL: 'https://panda-market-api-crud.vercel.app/articles',
     headers: {
@@ -37,9 +39,9 @@ export default class ArticleService {
   }
 
   static async getArticleList(schemes = {}) {
-    const { page, pageSize, keyword } = schemes
+    const { page, pageSize, keyword, orderBy } = schemes
 
-    const request = new GetArticleListRequest({ page: page, pageSize: pageSize, keyword: keyword })
+    const request = new GetArticleListRequest({ page: page, pageSize: pageSize, keyword: keyword, orderBy: orderBy })
 
     return this.#axiosInstance.get(``, { params: request.toQuery() })
       .then(
