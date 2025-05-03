@@ -26,8 +26,8 @@ try {
   if (typeof missionModule.default === 'function') {
     missionModule.default();
   }
-} catch (err) {
-  if (err.code === 'ENOENT') {
+} catch (error) {
+  if (error.code === 'ENOENT') {
     console.error(`[ERROR] 미션 ${missionNumber}의 파일이 존재하지 않습니다: ${missionPath}`);
   } else {
     console.error(`[ERROR] 미션 ${missionNumber} 실행 중 에러 발생:`, err);
