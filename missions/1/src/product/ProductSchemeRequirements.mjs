@@ -1,5 +1,4 @@
 import SprintUtility from "../util/SprintUtility.mjs"
-import Product from "./Product.mjs"
 import ProductCallbacks from "./ProductCallbacks.mjs"
 import ProductEnums from "./ProductEnums.mjs"
 

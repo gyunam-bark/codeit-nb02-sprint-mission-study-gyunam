@@ -1,4 +1,3 @@
-import SprintUtility from "../util/SprintUtility.mjs"
 import ProductSchemeRequirements from "./ProductSchemeRequirements.mjs"
 
 export default class Product {
